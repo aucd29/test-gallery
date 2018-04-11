@@ -1,11 +1,20 @@
 package net.sarangnamu.test_gallery.network
 
+import android.app.Activity
+import android.support.annotation.StringRes
+import android.support.v4.app.ActivityCompat.finishAffinity
+import net.sarangnamu.common.DialogParam
+import net.sarangnamu.common.dialog
+import net.sarangnamu.common.string
+import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.model.AppConfig
+import net.sarangnamu.test_gallery.model.DataManager
 import net.sarangnamu.test_gallery.model.getty.GettyConfig
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import net.sarangnamu.test_gallery.view.splash.SplashFrgmt
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
+import org.slf4j.LoggerFactory
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 /**
@@ -14,7 +23,7 @@ import java.util.concurrent.TimeUnit
  * * gettyimages
  *  API PAGE = http://developers.gettyimages.com/
  *  REGISTER = https://developer.gettyimages.com/member/register
- *  API = https://api.gettyimages.com/v3/search/images?fields=id,title,thumb,referral_destinations&sort_order=best&phrase=test
+ *  API = https://api.gettyimages.com/v3/search/images?fields=id,caption,thumb,referral_destinations&sort_order=best&phrase=test
  *
  *  github
  *  https://github.com/gettyimages/gettyimages-api/blob/master/code-samples/php/image-search.php
@@ -30,12 +39,13 @@ class NetworkManager private constructor() {
 
     companion object {
         val instance: NetworkManager by lazy { Holder.INSTANCE }
+        private val log = LoggerFactory.getLogger(NetworkManager::class.java)
     }
 
-    fun load(callback: Callback) {
+    fun load(activity: Activity?, listener: () -> Unit) {
         val request  = Request.Builder().url(GettyConfig.URL)
 
-        okhttp().newCall(request.get().build()).enqueue(callback)
+        okhttp().newCall(request.get().build()).enqueue(NetworkCallback(activity, listener))
     }
 
     private fun okhttp(): OkHttpClient {
@@ -48,5 +58,52 @@ class NetworkManager private constructor() {
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .addInterceptor(logger).build()
+    }
+
+    class NetworkCallback(val activity: Activity?, val listener: () -> Unit) : Callback {
+        override fun onFailure(call: Call?, e: IOException?) {
+            e?.run {
+                printStackTrace()
+                log.error("ERROR: ${message}")
+            }
+
+            alert(activity, R.string.network_occur_error)
+        }
+
+        override fun onResponse(call: Call?, response: Response?) {
+            if (log.isDebugEnabled) {
+                log.debug("RESPONSE CODE = ${response?.code()}")
+            }
+
+            response?.run {
+                if (code() >= 400) {
+                    alert(activity, R.string.network_occur_error)
+                    return
+                }
+
+                DataManager.instance.init(body().string(), { result ->
+                    if (result) {
+                        // 완료 했으면 메인 화면으로 이동
+                        listener.invoke()
+                    } else {
+                        log.error("ERROR: PARSING ")
+
+                        alert(activity, R.string.datamanager_unknown_error)
+                    }
+                })
+            } ?: alert(activity, R.string.splash_response_error)
+        }
+
+        fun alert(activity: Activity?, @StringRes msgId: Int) {
+            activity?.run {
+                dialog(DialogParam().apply {
+                    okCancel()
+
+                    title    = string(R.string.button_alert)
+                    message  = string(msgId)
+                    positive = { finishAffinity() }
+                })
+            }
+        }
     }
 }

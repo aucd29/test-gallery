@@ -11,6 +11,8 @@ import net.sarangnamu.common.V7Adapter
 import net.sarangnamu.common.gridLayout
 import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.model.AppConfig
+import net.sarangnamu.test_gallery.model.DataManager
+import net.sarangnamu.test_gallery.model.getty.GettyImageInfo
 import org.slf4j.LoggerFactory
 
 /**
@@ -25,44 +27,33 @@ class MainFrgmt : FrgmtBase() {
     override fun layoutId() = R.layout.main_layout
 
     override fun initLayout() {
-        // TODO
-        // 일단 데이터는 splash 에서 가져오는걸로 하고 ..
-        val dataList = arrayListOf<ImageData>()
-
-
         if (log.isDebugEnabled) {
-            log.debug("DATA LIST SIZE : ${dataList.size}")
+            log.debug("INIT RECYCLER VIEW")
         }
 
-        view?.main_recycler?.run {
+        base.main_recycler.run {
             gridLayout(AppConfig.GRID_HORIZONTAL_SIZE)
-
-            if (log.isDebugEnabled) {
-                log.debug("ACTIVITY = $activity")
-            }
 
             adapter = MainGridAdapter(activity!!
                     , R.layout.main_grid_row
-                    , dataList)
+                    , DataManager.instance.imageList)
         }
     }
 }
 
-class ImageData {
-
-}
-
 class MainGridViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val image = itemView.main_image
+    val image   = itemView.main_image
+    val caption = itemView.main_caption
 }
 
 class MainGridAdapter(override var context: Context,
                       @LayoutRes override var id: Int,
-                      override var dataList: ArrayList<ImageData>)
-        : V7Adapter<ImageData, MainGridViewHolder>(context, id, dataList) {
+                      override var dataList: ArrayList<GettyImageInfo>)
+        : V7Adapter<GettyImageInfo, MainGridViewHolder>(context, id, dataList) {
 
-    override fun bindData(holder: MainGridViewHolder, data: ImageData) {
+    override fun bindData(holder: MainGridViewHolder, data: GettyImageInfo) {
         // TODO
 
+        holder.caption.text = data.caption
     }
 }

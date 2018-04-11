@@ -1,7 +1,10 @@
 package net.sarangnamu.test_gallery.model
 
+import android.os.AsyncTask
 import net.sarangnamu.test_gallery.model.getty.GettyConfig
+import net.sarangnamu.test_gallery.model.getty.GettyImageInfo
 import net.sarangnamu.test_gallery.model.getty.GettyParser
+import net.sarangnamu.test_gallery.model.getty.GettyParsingTask
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import org.slf4j.LoggerFactory
@@ -10,7 +13,6 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 11.. <p/>
  *
-
  */
 
 class DataManager private constructor() {
@@ -21,9 +23,9 @@ class DataManager private constructor() {
         val instance: DataManager by lazy { Holder.INSTANCE }
     }
 
-    private var parser = GettyParser()
+    var imageList = arrayListOf<GettyImageInfo>()
 
-    fun load(html: String) {
+    fun init(html: String, listener: (Boolean) -> (Unit)) {
         val fpos = html.indexOf("<!-- REPEATER -->")
         val lpos = html.lastIndexOf("<!-- REPEATER ENDS -->")
         
@@ -34,6 +36,8 @@ class DataManager private constructor() {
         }
 
         val rawData = html.substring(fpos, lpos)
-        parser.loadXml("<root>" + rawData + "</root>")
+
+        GettyParsingTask(this, rawData, listener)
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 }

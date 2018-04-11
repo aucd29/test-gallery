@@ -31,11 +31,11 @@ class SplashFrgmt : FrgmtBase() {
             log.trace("SHOW SPLASH")
         }
 
-        upAndDownIcon()
-        auth()
+        shakeIcon()
+        loadData()
     }
 
-    private fun auth() {
+    private fun loadData() {
         if (!activity!!.isNetworkConnected()) {
             log.error("ERROR: NETWORK DISCONNECT")
 
@@ -43,32 +43,13 @@ class SplashFrgmt : FrgmtBase() {
             return
         }
 
-        NetworkManager.instance.load(object: Callback {
-            override fun onFailure(call: Call?, e: IOException?) {
-                alert(R.string.network_occur_error)
-            }
-
-            override fun onResponse(call: Call?, response: Response?) {
-                if (log.isDebugEnabled) {
-                    log.debug("RESPONSE CODE = ${response?.code()}")
-                }
-
-                response?.run {
-                    if (code()!! >= 400) {
-                        alert(R.string.network_occur_error)
-                        return
-                    }
-
-                    DataManager.instance.load(body().string())
-
-                    // 완료 했으면 메인 화면으로 이동
-                    showMainFragment()
-            } ?: alert(R.string.splash_response_error)
-            }
+        NetworkManager.instance.load(activity, {
+            // 완료 했으면 메인 화면으로 이동
+            showMainFragment()
         })
     }
 
-    private fun upAndDownIcon() {
+    private fun shakeIcon() {
         if (log.isTraceEnabled()) {
             log.trace("START ICON ANIMATION")
         }
@@ -97,7 +78,7 @@ class SplashFrgmt : FrgmtBase() {
 
     private fun showMainFragment() {
         if (log.isDebugEnabled) {
-            log.debug("SHOW MAIN FRAGMENT")
+            log.debug("REPLACE MainFrgmt")
         }
 
         activity?.supportFragmentManager?.replace(R.id.root_layout, MainFrgmt::class.java)

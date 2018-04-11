@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.InputStream
 import java.io.StringReader
 import javax.xml.parsers.DocumentBuilderFactory
@@ -59,43 +60,31 @@ abstract class XPathBase {
     /**
      * xml 파일 핸을 연다
      */
+    @Throws(Exception::class)
     fun loadXml(fp: File) {
         if (!fp.exists()) {
-            log.error("ERROR: FILE NOT FOUND ($fp)")
-            return
+            throw FileNotFoundException(fp.absolutePath)
         }
 
-        try {
-            document = builder.parse(fp)
-            parsing()
-        } catch (e: Exception) {
-            log.error("ERROR: ${e.printStackTrace()}")
-        }
+        document = builder.parse(fp)
+        parsing()
     }
 
     /**
      * xml input stream 을 연다
      */
+    @Throws(Exception::class)
     fun loadXml(ism: InputStream) {
-        try {
-            document = builder.parse(ism)
-            parsing()
-        } catch (e: Exception) {
-            log.error("ERROR: ${e.printStackTrace()}")
-        }
+        document = builder.parse(ism)
+        parsing()
     }
 
     /**
      * xml string 로드 한다
      */
     fun loadXml(xml: String) {
-        try {
-            document = builder.parse(InputSource(StringReader(xml)))
-            parsing()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            log.error("ERROR: ${e.message}")
-        }
+        document = builder.parse(InputSource(StringReader(xml)))
+        parsing()
     }
 
     /** string 으로 반환 */
@@ -115,5 +104,6 @@ abstract class XPathBase {
     //
     ////////////////////////////////////////////////////////////////////////////////////
 
+    @Throws(Exception::class)
     abstract fun parsing()
 }

@@ -41,12 +41,17 @@ import net.sarangnamu.test_gallery.R
  * 그냥 anko 를 쓸까? -_ -;;
  */
 
-class DialogParam(@StringRes message: Int = 0, @StringRes title: Int = 0): DlgParam(message) {
-    var title: String? = BkApp.context().string(title)
-
+class DialogParam(@StringRes messageId: Int = 0, @StringRes titleId: Int = 0): DlgParam(messageId) {
+    var title: String? = null
     var positive: ((DialogInterface) -> Unit)? = null
     var negative: ((DialogInterface) -> Unit)? = null
     var hideButton: Boolean = false
+
+    init {
+        if (titleId != 0) {
+            title = BkApp.context().string(titleId)
+        }
+    }
 
     fun yesNo() {
         positiveText = android.R.string.yes
@@ -66,9 +71,15 @@ open class LoadingParam(@StringRes message: Int = 0): DlgParam(message) {
     var style_horizontal = false
 }
 
-open class DlgParam(@StringRes message: Int = 0) {
-    var message: String? = BkApp.context().getString(message)
+open class DlgParam(@StringRes messageId: Int = 0) {
+    var message: String? = null
     @LayoutRes var resid: Int = 0
+
+    init {
+        if (messageId != 0) {
+            message = BkApp.context().string(messageId)
+        }
+    }
 }
 
 inline fun Fragment.dialog(params: DialogParam): AlertDialog.Builder? {

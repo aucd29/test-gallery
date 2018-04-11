@@ -39,7 +39,7 @@ class GettyParser : XPathBase() {
         val countExpr   = "count(//div[contains(@class, 'gallery-item-group')])"
         val imgPathExpr = "//div[contains(@class, 'gallery-item-group')][%d]/a/img/@src"
         val captionExpr = "//div[contains(@class, 'gallery-item-group')][%d]/div/p/a/text()"
-        val count = int(countExpr)
+        val count       = int(countExpr)
 
         if (log.isDebugEnabled) {
             log.debug("IMAGE COUNT : $count")
@@ -48,10 +48,6 @@ class GettyParser : XPathBase() {
         (1..count).forEach {
             val imgPath = string(imgPathExpr.format(it))
             val caption = string(captionExpr.format(it))
-
-//            if (log.isDebugEnabled) {
-//                log.debug("src = $imgPath, caption = $caption")
-//            }
 
             if (log.isTraceEnabled) {
                 log.trace("src = $imgPath, caption = $caption")

@@ -21,4 +21,4 @@ class GettyConfig {
     }
 }
 
-data class GettyImageInfo(val path: String, val title: String)
+data class GettyImageInfo(val path: String, val caption: String)
