@@ -1,0 +1,10 @@
+<configuration>
+    <appender name="logcat" class="ch.qos.logback.classic.android.LogcatAppender">
+        <tagEncoder><pattern>[BKLOG]%class{0}:%L %M</pattern></tagEncoder>
+        <encoder><pattern>%msg%n</pattern></encoder>
+    </appender>
+    <root level="debug">
+        <!-- <root level="ERROR|TRACE"> -->
+        <appender-ref ref="logcat"/>
+    </root>
+</configuration>

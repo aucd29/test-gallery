@@ -19,8 +19,8 @@ buildscript {
 ext {
     compat      = "27.1.1"
     compileSdk  = 27
-    targetSdk   = 27
     minSdk      = 16
+    targetSdk   = 27
 }
 
 allprojects {

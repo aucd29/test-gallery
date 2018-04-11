@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">test-gallery</string>
+    <string name="app_name">Gallery</string>
+
+    <!-- COMMON -->
+    <string name="activity_click_exit_again">Click exit again</string>
 </resources>
