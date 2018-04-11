@@ -120,15 +120,19 @@ abstract class FrgmtBase : Fragment() {
         if (id == 0) {
             base = defaultView()
         } else {
-            base = inflater.inflate(id, container!!) as ViewGroup
+            base = inflater.inflate(id, container, false) as ViewGroup
         }
 
         base.isClickable = true
-        base.setBackgroundColor(0xffffff)
-
-        initLayout()
+//        base.setBackgroundColor(0xffffff)
 
         return base
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        initLayout()
     }
 
     protected fun defaultView() : ViewGroup {

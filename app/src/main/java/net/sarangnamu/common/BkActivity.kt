@@ -87,7 +87,7 @@ open class AppCloser(var activity: Activity, var view: View? = null) {
 
     fun show() {
         if (view != null) {
-            activity.snackbar(view!!, R.string.activity_click_exit_again)
+            snackbar = activity.snackbar(view!!, R.string.activity_click_exit_again)
             snackbar?.show()
         } else {
             toast = activity.toast(R.string.activity_click_exit_again)

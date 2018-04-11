@@ -2,5 +2,8 @@
     <string name="app_name">Gallery</string>
 
     <!-- COMMON -->
-    <string name="activity_click_exit_again">Click exit again</string>
+    <string name="activity_click_exit_again">"'뒤로' 버튼을 한번 더 누르시면 종료됩니다."</string>
+
+    <!-- SPLASH -->
+    <string name="splash_loading">LOADING...</string>
 </resources>

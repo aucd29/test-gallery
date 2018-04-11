@@ -20,6 +20,7 @@ package net.sarangnamu.common
 
 import android.content.Context
 import android.support.annotation.LayoutRes
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -60,9 +61,9 @@ import java.lang.reflect.ParameterizedType
  */
 
 abstract class V7Adapter<T, H: RecyclerView.ViewHolder>(
-        var context: Context,
-        @LayoutRes var id: Int,
-        var dataList: ArrayList<T>) : RecyclerView.Adapter<H>() {
+        open var context: Context,
+        @LayoutRes open var id: Int,
+        open var dataList: ArrayList<T>) : RecyclerView.Adapter<H>() {
 
     var clickListener: ((View, Int) -> Unit)? = null
 
@@ -99,4 +100,8 @@ inline fun RecyclerView.verticalLayout() {
 
 inline fun RecyclerView.horizontalLayout() {
     layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+}
+
+inline fun RecyclerView.gridLayout(col: Int) {
+    layoutManager = GridLayoutManager(context, col)
 }
