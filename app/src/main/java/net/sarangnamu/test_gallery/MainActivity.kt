@@ -56,6 +56,5 @@ class MainActivity : AppCompatActivity() {
         }
 
         supportFragmentManager.add(R.id.root_layout, SplashFrgmt::class.java)
-//        supportFragmentManager.replace(R.id.root_layout, MainFrgmt::class.java)
     }
 }

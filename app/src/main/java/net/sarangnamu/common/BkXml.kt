@@ -93,7 +93,8 @@ abstract class XPathBase {
             document = builder.parse(InputSource(StringReader(xml)))
             parsing()
         } catch (e: Exception) {
-            log.error("ERROR: ${e.printStackTrace()}")
+            e.printStackTrace()
+            log.error("ERROR: ${e.message}")
         }
     }
 

@@ -7,5 +7,6 @@ package net.sarangnamu.test_gallery.model
 class AppConfig {
     companion object {
         const val GRID_HORIZONTAL_SIZE = 4
+        const val NETWORK_TIMEOUT = 3000L
     }
 }
