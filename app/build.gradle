@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion compileSdk
     defaultConfig {
-        applicationId "sarangnamu.net.test_gallery"
+        applicationId "net.sarangnamu.test_gallery"
         minSdkVersion targetSdk
         targetSdkVersion minSdk
         versionCode 1

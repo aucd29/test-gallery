@@ -1,4 +1,4 @@
-package sarangnamu.net.test_gallery
+package net.sarangnamu.test_gallery
 
 import org.junit.Test
 

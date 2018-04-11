@@ -1,4 +1,4 @@
-package sarangnamu.net.test_gallery
+package net.sarangnamu.test_gallery
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("sarangnamu.net.test_gallery", appContext.packageName)
+        assertEquals("net.sarangnamu.test_gallery", appContext.packageName)
     }
 }
