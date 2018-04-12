@@ -49,8 +49,12 @@ class SplashFrgmt : FrgmtBase() {
         }
 
         NetworkManager.get.load(activity, {
-            // 완료 했으면 메인 화면으로 이동
-            showMainFragment()
+            if (it) {
+                // 완료 했으면 메인 화면으로 이동
+                showMainFragment()
+            } else {
+                alert(R.string.network_occur_error)
+            }
         })
     }
 

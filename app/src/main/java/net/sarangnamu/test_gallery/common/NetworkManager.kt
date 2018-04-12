@@ -1,15 +1,11 @@
 package net.sarangnamu.test_gallery.common
 
 import android.app.Activity
-import android.support.annotation.StringRes
-import net.sarangnamu.common.DialogParam
-import net.sarangnamu.common.dialog
-import net.sarangnamu.common.string
-import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.getty.GettyConfig
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import org.slf4j.LoggerFactory
+import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -38,32 +34,37 @@ class NetworkManager private constructor() {
         private val log = LoggerFactory.getLogger(NetworkManager::class.java)
     }
 
-    fun load(activity: Activity?, listener: () -> Unit) {
-        val request  = Request.Builder().url(GettyConfig.URL)
+    fun load(activity: Activity?, listener: (Boolean) -> Unit) {
+        val request  = Request.Builder().url(GettyConfig.LIST_URL)
 
         okhttp().newCall(request.get().build()).enqueue(NetworkCallback(activity, listener))
     }
 
-    private fun okhttp(): OkHttpClient {
+    fun okhttp(cacheFp: File? = null, cacheSize: Long = 0): OkHttpClient {
         val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
+        val builder = OkHttpClient.Builder()
+                        .retryOnConnectionFailure(false)
+                        .readTimeout(AppConfig.NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
+                        .connectTimeout(AppConfig.NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
+                        .followRedirects(true)
+                        .followSslRedirects(true)
+                        .addInterceptor(logger)
 
-        return OkHttpClient.Builder()
-                .retryOnConnectionFailure(false)
-                .readTimeout(AppConfig.NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
-                .connectTimeout(AppConfig.NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
-                .followRedirects(true)
-                .followSslRedirects(true)
-                .addInterceptor(logger).build()
+        if (cacheFp != null) {
+            builder.cache(Cache(cacheFp, cacheSize))
+        }
+
+        return builder.build()
     }
 
-    class NetworkCallback(val activity: Activity?, val listener: () -> Unit) : Callback {
+    class NetworkCallback(val activity: Activity?, val listener: (Boolean) -> Unit) : Callback {
         override fun onFailure(call: Call?, e: IOException?) {
             e?.run {
                 printStackTrace()
                 log.error("ERROR: ${message}")
             }
 
-            alert(activity, R.string.network_occur_error)
+            listener.invoke(false)
         }
 
         override fun onResponse(call: Call?, response: Response?) {
@@ -72,34 +73,24 @@ class NetworkManager private constructor() {
             }
 
             response?.run {
-                if (code() >= 400) {
-                    alert(activity, R.string.network_occur_error)
+                if (!response.isSuccessful) {
+                    log.error("ERROR: ${code()}")
+                    listener.invoke(false)
+
                     return
                 }
 
                 DataManager.get.init(body().string(), { result ->
                     if (result) {
                         // 완료 했으면 메인 화면으로 이동
-                        listener.invoke()
+                        listener.invoke(true)
                     } else {
                         log.error("ERROR: PARSING ")
 
-                        alert(activity, R.string.datamanager_unknown_error)
+                        listener.invoke(false)
                     }
                 })
-            } ?: alert(activity, R.string.splash_response_error)
-        }
-
-        fun alert(activity: Activity?, @StringRes msgId: Int) {
-            activity?.run {
-                dialog(DialogParam().apply {
-                    okCancel()
-
-                    title    = string(R.string.button_alert)
-                    message  = string(msgId)
-                    positive = { finishAffinity() }
-                })
-            }
+            } ?: listener.invoke(false) //alert(activity, R.string.splash_response_error)
         }
     }
 }

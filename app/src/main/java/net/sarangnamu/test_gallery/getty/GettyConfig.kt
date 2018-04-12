@@ -16,7 +16,8 @@ class GettyConfig {
 //        val CLIENT_ID           = "client_id"
 //        val CLIENT_SECRET       = "client_secret"
 
-        val URL = "http://www.gettyimagesgallery.com/collections/archive/slim-aarons.aspx"
+        const val BASE_URL = "http://www.gettyimagesgallery.com"
+        const val LIST_URL = "${BASE_URL}/collections/archive/slim-aarons.aspx"
     }
 }
 

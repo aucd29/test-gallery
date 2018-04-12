@@ -61,16 +61,16 @@ import java.lang.reflect.ParameterizedType
  */
 
 abstract class V7Adapter<T, H: RecyclerView.ViewHolder>(
-        open var context: Context,
-        @LayoutRes open var id: Int,
-        open var dataList: ArrayList<T>) : RecyclerView.Adapter<H>() {
+        protected val mContext: Context,
+        protected @LayoutRes val mId: Int,
+        protected var mDataList: ArrayList<T>) : RecyclerView.Adapter<H>() {
 
     var clickListener: ((View, Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): H {
         val klass       = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1] as Class<H>
         val constructor = klass.getDeclaredConstructor(*arrayOf<Class<*>>(View::class.java))
-        val view        = LayoutInflater.from(context).inflate(id, parent,false)
+        val view        = LayoutInflater.from(mContext).inflate(mId, parent,false)
         val viewHolder  = constructor.newInstance(*arrayOf(view))
 
         clickListener?.let { view.setOnClickListener { v -> it(v, viewHolder.layoutPosition) } }
@@ -78,20 +78,20 @@ abstract class V7Adapter<T, H: RecyclerView.ViewHolder>(
         return viewHolder
     }
 
-    override fun getItemCount(): Int = dataList.size
-    override fun onBindViewHolder(holder: H, position: Int) = bindData(holder, dataList.get(position))
+    override fun getItemCount(): Int = mDataList.size
+    override fun onBindViewHolder(holder: H, position: Int) = bindView(holder, mDataList.get(position))
 
     fun invalidate(dataList: ArrayList<T>) {
-        this.dataList = dataList
+        this.mDataList = dataList
         notifyDataSetChanged()
     }
 
     fun invalidate(pos: Int, data: T) {
-        this.dataList.set(pos, data)
+        this.mDataList.set(pos, data)
         notifyItemChanged(pos)
     }
 
-    abstract fun bindData(holder: H, data: T)
+    abstract fun bindView(holder: H, data: T)
 }
 
 inline fun RecyclerView.verticalLayout() {

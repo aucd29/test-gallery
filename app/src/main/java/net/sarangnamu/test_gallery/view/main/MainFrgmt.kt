@@ -30,8 +30,8 @@ class MainFrgmt : FrgmtBase() {
             gridLayout(AppConfig.GRID_HORIZONTAL_SIZE)
 
             adapter = MainAdapter(activity!!
-                    , R.layout.main_grid_row
-                    , DataManager.get.imageList)
+                        , R.layout.main_grid_row
+                        , DataManager.get.imageList)
         }
     }
 }
