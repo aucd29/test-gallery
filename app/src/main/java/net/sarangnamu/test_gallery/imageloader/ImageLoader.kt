@@ -75,7 +75,7 @@ class ImageLoader(val activity: Activity) {
                 log.debug("FOUND MEM CACHE (${params.url}" )
             }
 
-            params.target.setImageBitmap(bitmap)
+            activity.runOnUiThread { params.target.setImageBitmap(bitmap) }
         } else {
             processNetwork(params)
         }

@@ -1,5 +1,6 @@
 package net.sarangnamu.test_gallery
 
+import com.squareup.leakcanary.LeakCanary
 import net.sarangnamu.common.BkApp
 
 /**
@@ -18,6 +19,12 @@ class MainApp : BkApp() {
     override fun onCreate() {
         super.onCreate()
 
-        // TODO
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your get in this process.
+            return
+        }
+
+        LeakCanary.install(this)
     }
 }
