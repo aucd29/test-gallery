@@ -36,7 +36,7 @@ class MainFrgmt : FrgmtBase() {
 
             adapter = MainGridAdapter(activity!!
                     , R.layout.main_grid_row
-                    , DataManager.instance.imageList)
+                    , DataManager.get.imageList)
         }
     }
 }

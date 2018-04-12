@@ -20,7 +20,7 @@ class DataManager private constructor() {
 
     companion object {
         private val log = LoggerFactory.getLogger(DataManager::class.java)
-        val instance: DataManager by lazy { Holder.INSTANCE }
+        val get: DataManager by lazy { Holder.INSTANCE }
     }
 
     var imageList = arrayListOf<GettyImageInfo>()

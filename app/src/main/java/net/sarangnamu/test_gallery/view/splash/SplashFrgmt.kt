@@ -4,14 +4,11 @@ import android.support.annotation.StringRes
 import kotlinx.android.synthetic.main.splash_layout.view.*
 import net.sarangnamu.common.*
 import net.sarangnamu.test_gallery.R
+import net.sarangnamu.test_gallery.model.AppConfig
 import net.sarangnamu.test_gallery.model.DataManager
 import net.sarangnamu.test_gallery.network.NetworkManager
 import net.sarangnamu.test_gallery.view.main.MainFrgmt
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Response
 import org.slf4j.LoggerFactory
-import java.io.IOException
 
 /**
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 11.. <p/>
@@ -43,7 +40,15 @@ class SplashFrgmt : FrgmtBase() {
             return
         }
 
-        NetworkManager.instance.load(activity, {
+        if (AppConfig.DUMY_MODE) {
+            // 더미 데이터 적용
+            DataManager.get.imageList = AppConfig.Dumy.imageList
+            base.postDelayed({ showMainFragment() }, 1000)
+
+            return
+        }
+
+        NetworkManager.get.load(activity, {
             // 완료 했으면 메인 화면으로 이동
             showMainFragment()
         })

@@ -2,7 +2,6 @@ package net.sarangnamu.test_gallery.network
 
 import android.app.Activity
 import android.support.annotation.StringRes
-import android.support.v4.app.ActivityCompat.finishAffinity
 import net.sarangnamu.common.DialogParam
 import net.sarangnamu.common.dialog
 import net.sarangnamu.common.string
@@ -10,7 +9,6 @@ import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.model.AppConfig
 import net.sarangnamu.test_gallery.model.DataManager
 import net.sarangnamu.test_gallery.model.getty.GettyConfig
-import net.sarangnamu.test_gallery.view.splash.SplashFrgmt
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import org.slf4j.LoggerFactory
@@ -38,7 +36,7 @@ class NetworkManager private constructor() {
     private object Holder { val INSTANCE = NetworkManager() }
 
     companion object {
-        val instance: NetworkManager by lazy { Holder.INSTANCE }
+        val get: NetworkManager by lazy { Holder.INSTANCE }
         private val log = LoggerFactory.getLogger(NetworkManager::class.java)
     }
 
@@ -81,7 +79,7 @@ class NetworkManager private constructor() {
                     return
                 }
 
-                DataManager.instance.init(body().string(), { result ->
+                DataManager.get.init(body().string(), { result ->
                     if (result) {
                         // 완료 했으면 메인 화면으로 이동
                         listener.invoke()
