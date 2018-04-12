@@ -1,4 +1,4 @@
-package net.sarangnamu.test_gallery.network
+package net.sarangnamu.test_gallery.common
 
 import android.app.Activity
 import android.support.annotation.StringRes
@@ -6,9 +6,7 @@ import net.sarangnamu.common.DialogParam
 import net.sarangnamu.common.dialog
 import net.sarangnamu.common.string
 import net.sarangnamu.test_gallery.R
-import net.sarangnamu.test_gallery.model.AppConfig
-import net.sarangnamu.test_gallery.model.DataManager
-import net.sarangnamu.test_gallery.model.getty.GettyConfig
+import net.sarangnamu.test_gallery.getty.GettyConfig
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import org.slf4j.LoggerFactory

@@ -1,6 +1,7 @@
-package net.sarangnamu.test_gallery.model.getty
+package net.sarangnamu.test_gallery.getty
 
 import net.sarangnamu.common.XPathBase
+import net.sarangnamu.test_gallery.model.GettyImageInfo
 import org.slf4j.LoggerFactory
 
 /**

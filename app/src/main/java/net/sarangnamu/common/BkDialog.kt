@@ -26,7 +26,6 @@ import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
-import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
 
@@ -210,5 +209,28 @@ class ProgressNumberFormat(val progress: ProgressDialog, val maxValue: Long) {
     }
 }
 
+interface IDialog {
+    fun show(activity: Activity, message: String, title: String? = null)
+    fun show(activity: Activity, @StringRes messageId: Int, @StringRes titleId: Int = 0)
+}
 
-
+//class BkDialog : IDialog {
+//    override fun show(activity: Activity, @StringRes messageId: Int, @StringRes titleId: Int) {
+//        activity.dialog(DialogParam().apply {
+//            if (messageId != 0) {
+//                this.message = activity.string(messageId)
+//            }
+//
+//            if (titleId != 0) {
+//                this.title = activity.string(titleId)
+//            }
+//        })
+//    }
+//
+//    override fun show(activity: Activity, message: String, title: String?) {
+//        activity.dialog(DialogParam().apply {
+//            this.title   = title
+//            this.message = message
+//        })
+//    }
+//}

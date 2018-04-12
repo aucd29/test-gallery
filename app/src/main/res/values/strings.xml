@@ -12,9 +12,7 @@
     <string name="network_occur_error">"네트워크에 문제가 있습니다.\n앱을 종료합니다."</string>
 
     <!-- SPLASH -->
-    <string name="splash_loading">LOADING...</string>
     <string name="splash_response_error">서버에서 전달 받은 응답 데이터가 없습니다.</string>
-
 
     <!-- DATA MANAGER -->
     <string name="datamanager_unknown_error">알 수 없는 오류가 발생되었습니다.</string>

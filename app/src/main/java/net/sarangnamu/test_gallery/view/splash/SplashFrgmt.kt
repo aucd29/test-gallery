@@ -4,9 +4,9 @@ import android.support.annotation.StringRes
 import kotlinx.android.synthetic.main.splash_layout.view.*
 import net.sarangnamu.common.*
 import net.sarangnamu.test_gallery.R
-import net.sarangnamu.test_gallery.model.AppConfig
-import net.sarangnamu.test_gallery.model.DataManager
-import net.sarangnamu.test_gallery.network.NetworkManager
+import net.sarangnamu.test_gallery.common.AppConfig
+import net.sarangnamu.test_gallery.common.DataManager
+import net.sarangnamu.test_gallery.common.NetworkManager
 import net.sarangnamu.test_gallery.view.main.MainFrgmt
 import org.slf4j.LoggerFactory
 

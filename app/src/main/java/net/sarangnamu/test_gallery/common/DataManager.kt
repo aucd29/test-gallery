@@ -1,14 +1,9 @@
-package net.sarangnamu.test_gallery.model
+package net.sarangnamu.test_gallery.common
 
 import android.os.AsyncTask
-import net.sarangnamu.test_gallery.model.getty.GettyConfig
-import net.sarangnamu.test_gallery.model.getty.GettyImageInfo
-import net.sarangnamu.test_gallery.model.getty.GettyParser
-import net.sarangnamu.test_gallery.model.getty.GettyParsingTask
-import okhttp3.*
-import okhttp3.logging.HttpLoggingInterceptor
+import net.sarangnamu.test_gallery.getty.GettyParsingTask
+import net.sarangnamu.test_gallery.model.GettyImageInfo
 import org.slf4j.LoggerFactory
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 11.. <p/>

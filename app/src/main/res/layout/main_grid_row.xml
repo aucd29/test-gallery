@@ -3,13 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/main_recycler_padding">
 
     <ImageView
         android:id="@+id/main_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher"
+        android:layout_gravity="center_horizontal"
         />
 
     <TextView
@@ -17,8 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:gravity="center"
+        android:paddingTop="@dimen/main_recycler_text_padding"
+        android:paddingBottom="@dimen/main_recycler_text_padding"
         android:text="test"
         />
 </LinearLayout>
