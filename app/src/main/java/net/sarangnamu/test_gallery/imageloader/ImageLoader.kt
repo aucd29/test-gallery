@@ -8,20 +8,20 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.*
 import android.support.annotation.DrawableRes
-import android.support.annotation.NonNull
 import android.support.v4.graphics.BitmapCompat
 import android.support.v4.util.LruCache
 import android.text.format.Formatter
 import android.widget.ImageView
 import net.sarangnamu.common.BkSystem
-import net.sarangnamu.test_gallery.R
-import net.sarangnamu.test_gallery.common.NetworkManager
+import net.sarangnamu.test_gallery.common.AppConfig
 import okhttp3.*
+import okhttp3.logging.HttpLoggingInterceptor
 import okio.Okio
 import okio.Source
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 12.. <p/>
@@ -30,13 +30,14 @@ import java.io.IOException
 class ImageLoader(val activity: Activity, @DrawableRes val placeholderId: Int) {
     companion object {
         private val log = LoggerFactory.getLogger(ImageLoader::class.java)
+
         private val K_LOAD = 1
     }
 
     private val handlerThread = HandlerThread("imageLoaderThread", Process.THREAD_PRIORITY_BACKGROUND)
     private val handler: Handler
     private var memCache = MemoryCache(activity)
-    private var network: OkHttpClient? = null
+    private var okhttp: OkHttpClient? = null
 
     init {
         handlerThread.start()
@@ -91,14 +92,13 @@ class ImageLoader(val activity: Activity, @DrawableRes val placeholderId: Int) {
     }
 
     private fun processNetwork(params: ImageLoaderParams) {
-        if (network == null) {
-            val diskCache = DiskCache(params.context)
-            network = NetworkManager.get.okhttp(diskCache.diskCacheFp, diskCache.cacheSize())
+        if (okhttp == null) {
+            okhttp = okhttp(params)
         }
 
         val request = Request.Builder().url(params.url)
 
-        network?.run {
+        okhttp?.run {
             newCall(request.build()).enqueue(object: Callback {
                 override fun onFailure(call: Call?, e: IOException?) {
                     e?.run {
@@ -129,6 +129,19 @@ class ImageLoader(val activity: Activity, @DrawableRes val placeholderId: Int) {
                 }
             })
         }
+    }
+
+    private fun okhttp(params: ImageLoaderParams): OkHttpClient {
+        val diskCache = DiskCache(params.context)
+        val logger  = HttpLoggingInterceptor().setLevel(AppConfig.OKHTTP_LOGLEVEL)
+        val builder = OkHttpClient.Builder()
+                .retryOnConnectionFailure(false)
+                .readTimeout(AppConfig.NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
+                .connectTimeout(AppConfig.NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
+                .addInterceptor(logger)
+                .cache(Cache(diskCache.diskCacheFp, diskCache.cacheSize()))
+
+        return builder.build()
     }
 
     private fun decodeBitmap(src: Source): Bitmap {

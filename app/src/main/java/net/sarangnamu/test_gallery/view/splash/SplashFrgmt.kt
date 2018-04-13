@@ -5,7 +5,7 @@ import net.sarangnamu.common.*
 import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.common.AppConfig
 import net.sarangnamu.test_gallery.common.DataProxy
-import net.sarangnamu.test_gallery.common.NetworkManager
+import net.sarangnamu.test_gallery.common.Network
 import net.sarangnamu.test_gallery.getty.GettyConfig
 import net.sarangnamu.test_gallery.getty.GettyParser
 import net.sarangnamu.test_gallery.view.AppFrgmtBase
@@ -55,7 +55,7 @@ class SplashFrgmt : AppFrgmtBase() {
             return
         }
 
-        NetworkManager.get.body(GettyConfig.LIST_URL, { res, body ->
+        Network.get.body(GettyConfig.LIST_URL, { res, body ->
             if (!res) {
                 error(R.string.network_occur_error)
             } else {

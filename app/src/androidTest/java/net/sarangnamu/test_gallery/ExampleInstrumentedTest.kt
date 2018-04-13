@@ -2,9 +2,8 @@ package net.sarangnamu.test_gallery
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import net.sarangnamu.test_gallery.common.AppConfig
 import net.sarangnamu.test_gallery.common.DataProxy
-import net.sarangnamu.test_gallery.common.NetworkManager
+import net.sarangnamu.test_gallery.common.Network
 import net.sarangnamu.test_gallery.getty.GettyConfig
 import net.sarangnamu.test_gallery.getty.GettyParser
 
@@ -29,7 +28,7 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testNetwork() {
-        NetworkManager.get.body("http://sarangnamu.net", { res, body ->
+        Network.get.body("http://sarangnamu.net", { res, body ->
             assertEquals(true, res)
             assertNotEquals(null, body?.string())
         })
@@ -37,7 +36,7 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testGetty() {
-        NetworkManager.get.body(GettyConfig.LIST_URL, { res, body ->
+        Network.get.body(GettyConfig.LIST_URL, { res, body ->
             assertEquals(true, res)
 
             val html = body?.string()
@@ -55,7 +54,7 @@ class ExampleInstrumentedTest {
     fun testDataProxy() {
         val appContext = InstrumentationRegistry.getTargetContext()
 
-        NetworkManager.get.body(GettyConfig.LIST_URL, { res, body ->
+        Network.get.body(GettyConfig.LIST_URL, { res, body ->
             DataProxy.get.run {
                 data = GettyParser()
                 data?.limit(6)

@@ -14,7 +14,7 @@ class DataProxy private constructor() {
 
     companion object {
         private val log = LoggerFactory.getLogger(DataProxy::class.java)
-        val  get: DataProxy by lazy { Holder.INSTANCE }
+        val get: DataProxy by lazy { Holder.INSTANCE }
     }
 
     var data: IData<GettyImageInfo>? = null

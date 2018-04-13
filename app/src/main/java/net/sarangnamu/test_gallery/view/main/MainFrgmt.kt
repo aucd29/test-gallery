@@ -55,6 +55,10 @@ class MainFrgmt : AppFrgmtBase() {
     }
 
     override fun onDestroy() {
+        if (log.isTraceEnabled()) {
+            log.trace("DESTROY")
+        }
+
         loader?.destroy()
 
         super.onDestroy()
