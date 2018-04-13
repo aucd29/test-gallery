@@ -130,9 +130,6 @@ class ImageLoader(val activity: Activity) {
     private fun decodeBitmap(src: Source): Bitmap {
         val option = BitmapFactory.Options()
         val ioBuff = Okio.buffer(src)
-
-        // TODO 비트맵 옵션 추가해야 함
-
         val bitmap = BitmapFactory.decodeStream(ioBuff.inputStream(), null, option)
 
         return bitmap

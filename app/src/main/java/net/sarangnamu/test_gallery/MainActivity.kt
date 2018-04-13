@@ -4,10 +4,8 @@ import android.content.res.Configuration
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
-import net.sarangnamu.common.AppCloser
+import net.sarangnamu.common.AppTerminator
 import net.sarangnamu.common.add
-import net.sarangnamu.common.replace
-import net.sarangnamu.test_gallery.view.main.MainFrgmt
 import net.sarangnamu.test_gallery.view.splash.SplashFrgmt
 import org.slf4j.LoggerFactory
 
@@ -16,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         private val log = LoggerFactory.getLogger(MainActivity::class.java)
     }
 
-    private var appCloser: AppCloser? = null
+    private var appTerminator: AppTerminator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (log.isTraceEnabled()) {
@@ -37,13 +35,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        appCloser?.onBackPressed() ?: super.onBackPressed()
+        appTerminator?.onBackPressed() ?: super.onBackPressed()
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
 
     private fun init() {
-        appCloser = AppCloser(this@MainActivity, root_layout)
+        appTerminator = AppTerminator(this@MainActivity, root_layout)
     }
 
     private fun initFragment() {

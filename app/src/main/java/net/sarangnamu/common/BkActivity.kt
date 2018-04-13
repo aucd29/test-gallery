@@ -58,9 +58,9 @@ inline fun Activity.toast(@StringRes resid: Int): Toast = toast(getString(resid)
 inline fun Activity.toastLong(@StringRes resid: Int): Toast = toastLong(getString(resid))
 inline fun Activity.snackbar(view: View, @StringRes resid: Int): Snackbar = snackbar(view, getString(resid))
 inline fun Activity.snackbarLong(view: View, @StringRes resid: Int): Snackbar = snackbarLong(view, getString(resid))
-inline fun Activity.checkBackPressed(view: View?) = AppCloser(this, view)
+inline fun Activity.checkBackPressed(view: View?) = AppTerminator(this, view)
 
-open class AppCloser(var activity: Activity, var view: View? = null) {
+open class AppTerminator(var activity: Activity, var view: View? = null) {
     companion object {
         val delay = 2000
     }
