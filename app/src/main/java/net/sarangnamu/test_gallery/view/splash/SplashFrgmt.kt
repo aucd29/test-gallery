@@ -46,6 +46,7 @@ class SplashFrgmt : AppFrgmtBase() {
             // 더미 데이터 적용
             DataProxy.get.run {
                 data = GettyParser()
+                data?.limit(AppConfig.GRID_X_SIZE * AppConfig.GRID_Y_SIZE)
                 list(AppConfig.Dumy.imageList)
             }
 
@@ -61,6 +62,7 @@ class SplashFrgmt : AppFrgmtBase() {
                 body?.run {
                     DataProxy.get.run {
                         data = GettyParser()
+                        data?.limit(AppConfig.GRID_X_SIZE * AppConfig.GRID_Y_SIZE)
 
                         init(string())
                         load(activity!!, {

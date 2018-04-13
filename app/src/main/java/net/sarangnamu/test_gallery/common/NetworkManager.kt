@@ -39,7 +39,7 @@ class NetworkManager private constructor() {
     }
 
     fun okhttp(cacheFp: File? = null, cacheSize: Long = 0): OkHttpClient {
-        val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
+        val logger  = HttpLoggingInterceptor().setLevel(AppConfig.OKHTTP_LOGLEVEL)
         val builder = OkHttpClient.Builder()
                         .retryOnConnectionFailure(false)
                         .readTimeout(AppConfig.NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)

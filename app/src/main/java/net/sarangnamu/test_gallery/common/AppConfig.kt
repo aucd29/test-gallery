@@ -1,6 +1,8 @@
 package net.sarangnamu.test_gallery.common
 
+import net.sarangnamu.test_gallery.BuildConfig
 import net.sarangnamu.test_gallery.getty.GettyImageInfo
+import okhttp3.logging.HttpLoggingInterceptor
 
 
 /**
@@ -9,9 +11,13 @@ import net.sarangnamu.test_gallery.getty.GettyImageInfo
 
 class AppConfig {
     companion object {
-        const val DUMY_MODE             = false
-        const val GRID_HORIZONTAL_SIZE  = 3
-        const val NETWORK_TIMEOUT       = 10000L
+        const val DUMY_MODE       = false
+        const val GRID_X_SIZE     = 3
+        const val GRID_Y_SIZE     = 7
+        const val NETWORK_TIMEOUT = 10000L
+
+        val OKHTTP_LOGLEVEL             = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC
+                                          else HttpLoggingInterceptor.Level.NONE
     }
 
     class Dumy {

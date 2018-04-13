@@ -11,6 +11,7 @@ import android.support.v4.graphics.BitmapCompat
 import android.support.v4.util.LruCache
 import android.widget.ImageView
 import net.sarangnamu.common.BkSystem
+import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.common.NetworkManager
 import okhttp3.*
 import okio.Okio
@@ -54,6 +55,9 @@ class ImageLoader(val activity: Activity) {
     }
 
     fun load(params: ImageLoaderParams) {
+        // default image
+        params.target.setImageResource(R.drawable.ic_rotate_right_gray_24dp)
+
         sendMessage(K_LOAD, params)
     }
 

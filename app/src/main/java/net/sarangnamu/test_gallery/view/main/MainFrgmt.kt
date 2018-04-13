@@ -21,17 +21,16 @@ class MainFrgmt : AppFrgmtBase() {
     override fun layoutId() = R.layout.main_layout
 
     override fun initLayout() {
-        val total    = DataProxy.get.total()
-        val list     = DataProxy.get.list()
-        val listSize = list?.size ?: 0
+        val total = DataProxy.get.total()
+        val list  = DataProxy.get.list()
 
         if (log.isDebugEnabled) {
             log.debug("INIT RECYCLER VIEW")
             log.debug("TOTAL SIZE : $total")
-            log.debug("DATA SIZE  : $listSize")
+            log.debug("LIST SIZE  : ${list?.size}")
         }
 
-        if (listSize == 0) {
+        if (list?.size == 0) {
             log.error("ERROR: LIST DATA PROBLEM")
             error(R.string.unknown_error)
 
@@ -39,11 +38,10 @@ class MainFrgmt : AppFrgmtBase() {
         }
 
         base.main_recycler.run {
-            gridLayout(AppConfig.GRID_HORIZONTAL_SIZE).spanSizeLookup =
+            gridLayout(AppConfig.GRID_X_SIZE).spanSizeLookup =
                 object: GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
-                        return if (position > listSize) 1
-                               else AppConfig.GRID_HORIZONTAL_SIZE
+                        return if (position == list?.run { size } ?: 0) AppConfig.GRID_X_SIZE else 1
                     }
                 }
 

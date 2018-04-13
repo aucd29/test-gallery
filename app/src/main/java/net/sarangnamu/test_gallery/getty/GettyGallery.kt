@@ -1,6 +1,8 @@
 package net.sarangnamu.test_gallery.getty
 
 import net.sarangnamu.common.XPathBase
+import net.sarangnamu.test_gallery.common.AppConfig
+import net.sarangnamu.test_gallery.common.AppConfig.Companion.GRID_Y_SIZE
 import net.sarangnamu.test_gallery.common.IData
 import org.slf4j.LoggerFactory
 
@@ -55,7 +57,7 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
 
     private var imageList = arrayListOf<GettyImageInfo>()
     private var total = 0
-    private var limit = 20
+    private var limit = 3
     private var first = 1
 
     override fun parsing() {
@@ -88,10 +90,12 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
      * 다음 데이터 가져오기
      */
     override fun next(): Boolean {
-        val first = this.first + this.limit
-        val last  = first + this.limit
+        val first = this.first
+        val last  = first + this.limit - 1
 
         select(first, last)
+
+        this.first += this.limit
 
         return last < total
     }
@@ -123,6 +127,10 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
 
         if (last > total) {
             last = total
+        }
+
+        if (log.isDebugEnabled) {
+            log.debug("SELECT CVT($first, $last)")
         }
 
         (first..last).forEach {

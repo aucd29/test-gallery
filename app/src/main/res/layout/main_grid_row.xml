@@ -21,6 +21,5 @@
         android:gravity="center"
         android:paddingTop="@dimen/main_recycler_text_padding"
         android:paddingBottom="@dimen/main_recycler_text_padding"
-        android:text="test"
         />
 </LinearLayout>

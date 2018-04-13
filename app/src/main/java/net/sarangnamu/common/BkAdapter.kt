@@ -91,7 +91,7 @@ abstract class V7Adapter<T, H: RecyclerView.ViewHolder>(
         notifyItemChanged(pos)
     }
 
-    abstract fun bindView(holder: H, data: T)
+    abstract fun bindView(holder: H, data: T?)
 }
 
 inline fun RecyclerView.verticalLayout(): LinearLayoutManager {
