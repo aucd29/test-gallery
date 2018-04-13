@@ -82,6 +82,7 @@ abstract class XPathBase {
     /**
      * xml string 로드 한다
      */
+    @Throws(Exception::class)
     fun loadXml(xml: String) {
         document = builder.parse(InputSource(StringReader(xml)))
         parsing()

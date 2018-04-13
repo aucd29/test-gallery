@@ -18,6 +18,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
 }
 
 dependencies {
@@ -35,18 +41,17 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     // OPEN LIBS
-    implementation('com.github.tony19:logback-android-classic:1.1.1-3') {
+    implementation("com.github.tony19:logback-android-classic:$logback") {
         exclude group: 'com.google.android', module: 'android'
     }
-    implementation ('com.github.tony19:logback-android-core:1.1.1-3')  {
+    implementation ("com.github.tony19:logback-android-core:$logback")  {
         exclude group: 'com.google.android', module: 'android'
     }
-    implementation 'org.slf4j:slf4j-api:1.7.5'
+    implementation "org.slf4j:slf4j-api:$slf4j"
     implementation "com.squareup.okhttp3:okhttp:$okhttp"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.2'
+//    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpLog"
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary"
 }

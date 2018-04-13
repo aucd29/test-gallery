@@ -47,6 +47,7 @@ class ExampleInstrumentedTest {
                 "    </div>\n" +
                 "</div></root>"
 
-        DataManager.get.init(html, { assertEquals(true, it) })
+        DataManager.get.rawHtml(html)
+        DataManager.get.load({ assertEquals(true, it) })
     }
 }

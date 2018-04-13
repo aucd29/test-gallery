@@ -1,6 +1,6 @@
 package net.sarangnamu.test_gallery.common
 
-import net.sarangnamu.test_gallery.model.GettyImageInfo
+import net.sarangnamu.test_gallery.getty.GettyImageInfo
 
 
 /**
@@ -9,8 +9,8 @@ import net.sarangnamu.test_gallery.model.GettyImageInfo
 
 class AppConfig {
     companion object {
-        const val DUMY_MODE             = true
-        const val GRID_HORIZONTAL_SIZE  = 4
+        const val DUMY_MODE             = false
+        const val GRID_HORIZONTAL_SIZE  = 3
         const val NETWORK_TIMEOUT       = 10000L
     }
 

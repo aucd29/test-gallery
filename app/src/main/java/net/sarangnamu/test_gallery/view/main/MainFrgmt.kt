@@ -1,19 +1,18 @@
 package net.sarangnamu.test_gallery.view.main
 
 import kotlinx.android.synthetic.main.main_layout.view.*
-import net.sarangnamu.common.FrgmtBase
 import net.sarangnamu.common.gridLayout
 import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.common.AppConfig
 import net.sarangnamu.test_gallery.common.DataManager
-import net.sarangnamu.test_gallery.view.main.control.MainAdapter
+import net.sarangnamu.test_gallery.view.GalleryFrgmtBase
 import org.slf4j.LoggerFactory
 
 /**
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 11.. <p/>
  */
 
-class MainFrgmt : FrgmtBase() {
+class MainFrgmt : GalleryFrgmtBase() {
     companion object {
         private val log = LoggerFactory.getLogger(MainFrgmt::class.java)
     }

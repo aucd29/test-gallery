@@ -1,38 +1,42 @@
 package net.sarangnamu.test_gallery.common
 
-import android.os.AsyncTask
-import net.sarangnamu.test_gallery.getty.GettyParsingTask
-import net.sarangnamu.test_gallery.model.GettyImageInfo
+import android.app.Activity
+import net.sarangnamu.common.async
+import net.sarangnamu.test_gallery.getty.GettyImageInfo
 import org.slf4j.LoggerFactory
 
 /**
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 11.. <p/>
  *
  */
-
 class DataManager private constructor() {
     private object Holder { val INSTANCE = DataManager() }
 
     companion object {
         private val log = LoggerFactory.getLogger(DataManager::class.java)
-        val get: DataManager by lazy { Holder.INSTANCE }
+        val  get: DataManager by lazy { Holder.INSTANCE }
     }
 
+    var data: IData<GettyImageInfo>? = null
     var imageList = arrayListOf<GettyImageInfo>()
 
-    fun init(html: String, listener: (Boolean) -> (Unit)) {
-        val fpos = html.indexOf("<!-- REPEATER -->")
-        val lpos = html.lastIndexOf("<!-- REPEATER ENDS -->")
-        
-        if (fpos == -1 || lpos == -1) {
-            log.error("ERROR: fpos = $fpos, lpos = $lpos")
-            
-            return 
-        }
+    fun init(html: String) {
+        data?.init(html)
+    }
 
-        val rawData = html.substring(fpos, lpos)
+    fun load(activity: Activity, listener: (Boolean) -> (Unit)) {
+        activity.async ({
+            try {
+                data?.next()
+                imageList = data?.list()!!
 
-        GettyParsingTask(this, rawData, listener)
-                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+                true
+            } catch (e: Exception) {
+                e.printStackTrace()
+                log.error("ERROR: ${e.message}")
+
+                false
+            }
+        }, listener)
     }
 }

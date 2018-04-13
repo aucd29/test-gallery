@@ -1,7 +1,5 @@
 package net.sarangnamu.test_gallery.common
 
-import android.app.Activity
-import net.sarangnamu.test_gallery.getty.GettyConfig
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import org.slf4j.LoggerFactory
@@ -34,10 +32,10 @@ class NetworkManager private constructor() {
         private val log = LoggerFactory.getLogger(NetworkManager::class.java)
     }
 
-    fun load(activity: Activity?, listener: (Boolean) -> Unit) {
-        val request  = Request.Builder().url(GettyConfig.LIST_URL)
+    fun body(url: String, listener: (Boolean, ResponseBody?) -> Unit) {
+        val request  = Request.Builder().url(url)
 
-        okhttp().newCall(request.get().build()).enqueue(NetworkCallback(activity, listener))
+        okhttp().newCall(request.get().build()).enqueue(NetworkCallback(listener))
     }
 
     fun okhttp(cacheFp: File? = null, cacheSize: Long = 0): OkHttpClient {
@@ -57,40 +55,25 @@ class NetworkManager private constructor() {
         return builder.build()
     }
 
-    class NetworkCallback(val activity: Activity?, val listener: (Boolean) -> Unit) : Callback {
+    class NetworkCallback(val listener: (Boolean, ResponseBody?) -> Unit) : Callback {
         override fun onFailure(call: Call?, e: IOException?) {
             e?.run {
                 printStackTrace()
                 log.error("ERROR: ${message}")
             }
 
-            listener.invoke(false)
+            listener.invoke(false, null)
         }
 
-        override fun onResponse(call: Call?, response: Response?) {
-            if (log.isDebugEnabled) {
-                log.debug("RESPONSE CODE = ${response?.code()}")
+        override fun onResponse(call: Call?, response: Response) {
+            if (!response.isSuccessful) {
+                log.error("ERROR: RESPONSE")
+                listener.invoke(false, null)
+
+                return
             }
 
-            response?.run {
-                if (!response.isSuccessful) {
-                    log.error("ERROR: ${code()}")
-                    listener.invoke(false)
-
-                    return
-                }
-
-                DataManager.get.init(body().string(), { result ->
-                    if (result) {
-                        // 완료 했으면 메인 화면으로 이동
-                        listener.invoke(true)
-                    } else {
-                        log.error("ERROR: PARSING ")
-
-                        listener.invoke(false)
-                    }
-                })
-            } ?: listener.invoke(false) //alert(activity, R.string.splash_response_error)
+            listener.invoke(true, response.body())
         }
     }
 }

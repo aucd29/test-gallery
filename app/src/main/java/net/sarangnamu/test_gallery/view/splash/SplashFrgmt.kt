@@ -1,12 +1,14 @@
 package net.sarangnamu.test_gallery.view.splash
 
-import android.support.annotation.StringRes
 import kotlinx.android.synthetic.main.splash_layout.view.*
 import net.sarangnamu.common.*
 import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.common.AppConfig
 import net.sarangnamu.test_gallery.common.DataManager
 import net.sarangnamu.test_gallery.common.NetworkManager
+import net.sarangnamu.test_gallery.getty.GettyConfig
+import net.sarangnamu.test_gallery.getty.GettyParser
+import net.sarangnamu.test_gallery.view.GalleryFrgmtBase
 import net.sarangnamu.test_gallery.view.main.MainFrgmt
 import org.slf4j.LoggerFactory
 
@@ -14,7 +16,7 @@ import org.slf4j.LoggerFactory
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 11.. <p/>
  */
 
-class SplashFrgmt : FrgmtBase() {
+class SplashFrgmt : GalleryFrgmtBase() {
     companion object {
         private val log = LoggerFactory.getLogger(SplashFrgmt::class.java)
         private val ANI_DURATION = 500L
@@ -36,7 +38,7 @@ class SplashFrgmt : FrgmtBase() {
         if (!activity!!.isNetworkConnected()) {
             log.error("ERROR: NETWORK DISCONNECT")
 
-            alert(R.string.network_occur_error)
+            error(R.string.network_occur_error)
             return
         }
 
@@ -48,12 +50,23 @@ class SplashFrgmt : FrgmtBase() {
             return
         }
 
-        NetworkManager.get.load(activity, {
-            if (it) {
-                // 완료 했으면 메인 화면으로 이동
-                showMainFragment()
+        NetworkManager.get.body(GettyConfig.LIST_URL, { res, body ->
+            if (!res) {
+                error(R.string.network_occur_error)
             } else {
-                alert(R.string.network_occur_error)
+                body?.run {
+                    DataManager.get.run {
+                        data = GettyParser()
+
+                        init(string())
+                        load(activity!!, {
+                            when (it) {
+                                true -> showMainFragment()
+                                else -> error(R.string.datamanager_unknown_error)
+                            }
+                        })
+                    }
+                } ?: error(R.string.network_occur_error)
             }
         })
     }
@@ -71,18 +84,6 @@ class SplashFrgmt : FrgmtBase() {
     private fun animateIcon(transition: Float, listener: Runnable? = null) {
         base.splash_icon.animate().translationY(transition).setDuration(ANI_DURATION)
             .withEndAction(listener).start()
-    }
-
-    private fun alert(@StringRes msgId: Int) {
-        activity?.run {
-            dialog(DialogParam().apply {
-                okCancel()
-
-                title    = string(R.string.button_alert)
-                message  = string(msgId)
-                positive = { finishAffinity() }
-            })
-        }
     }
 
     private fun showMainFragment() {
