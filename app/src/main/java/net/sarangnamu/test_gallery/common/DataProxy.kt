@@ -1,8 +1,7 @@
 package net.sarangnamu.test_gallery.common
 
-import android.app.Activity
+import android.content.Context
 import net.sarangnamu.common.async
-import net.sarangnamu.test_gallery.common.AppConfig.Dumy.Companion.imageList
 import net.sarangnamu.test_gallery.getty.GettyImageInfo
 import org.slf4j.LoggerFactory
 
@@ -44,8 +43,8 @@ class DataProxy private constructor() {
         data?.list(list)
     }
 
-    fun load(activity: Activity, listener: (Boolean) -> (Unit)) {
-        activity.async ({
+    fun load(context: Context, listener: (Boolean) -> (Unit)) {
+        context.async({
             try {
                 data?.next()
 

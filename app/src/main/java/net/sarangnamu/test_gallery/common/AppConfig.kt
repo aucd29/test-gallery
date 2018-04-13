@@ -11,7 +11,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 
 class AppConfig {
     companion object {
-        const val DUMY_MODE       = false
+//        const val DUMY_MODE       = false
         const val GRID_X_SIZE     = 3
         const val GRID_Y_SIZE     = 6
         const val NETWORK_TIMEOUT = 10000L
@@ -20,38 +20,38 @@ class AppConfig {
                                     else HttpLoggingInterceptor.Level.NONE
     }
 
-    class Dumy {
-        companion object {
-            var idx = 0
-            val imageList = arrayListOf(
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
-                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"))
-        }
-    }
+//    class Dumy {
+//        companion object {
+//            var idx = 0
+//            val imageList = arrayListOf(
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134306.jpg", "Corfu Picnic"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1361/136166.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134370.jpg", "Cortina d'Ampezzo"),
+//                GettyImageInfo(idx++, "/Images/Thumbnails/1343/134374.jpg", "Cortina d'Ampezzo"))
+//        }
+//    }
 }

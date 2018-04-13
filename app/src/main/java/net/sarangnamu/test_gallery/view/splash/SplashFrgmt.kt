@@ -42,18 +42,18 @@ class SplashFrgmt : AppFrgmtBase() {
             return
         }
 
-        if (AppConfig.DUMY_MODE) {
-            // 더미 데이터 적용
-            DataProxy.get.run {
-                data = GettyParser()
-                data?.limit(AppConfig.GRID_X_SIZE * AppConfig.GRID_Y_SIZE)
-                list(AppConfig.Dumy.imageList)
-            }
-
-            base.postDelayed({ showMainFragment() }, 1000)
-
-            return
-        }
+//        if (AppConfig.DUMY_MODE) {
+//            // 더미 데이터 적용
+//            DataProxy.get.run {
+//                data = GettyParser()
+//                data?.limit(AppConfig.GRID_X_SIZE * AppConfig.GRID_Y_SIZE)
+//                list(AppConfig.Dumy.imageList)
+//            }
+//
+//            base.postDelayed({ showMainFragment() }, 1000)
+//
+//            return
+//        }
 
         NetworkManager.get.body(GettyConfig.LIST_URL, { res, body ->
             if (!res) {

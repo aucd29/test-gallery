@@ -2,7 +2,11 @@ package net.sarangnamu.test_gallery
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
+import net.sarangnamu.test_gallery.common.AppConfig
 import net.sarangnamu.test_gallery.common.DataProxy
+import net.sarangnamu.test_gallery.common.NetworkManager
+import net.sarangnamu.test_gallery.getty.GettyConfig
+import net.sarangnamu.test_gallery.getty.GettyParser
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,30 +27,42 @@ class ExampleInstrumentedTest {
         assertEquals("net.sarangnamu.test_gallery", appContext.packageName)
     }
 
-//    @Test
-//    fun testNetworkManager() {
-////        NetworkManager.get.load()
-//    }
+    @Test
+    fun testNetwork() {
+        NetworkManager.get.body("http://sarangnamu.net", { res, body ->
+            assertEquals(true, res)
+            assertNotEquals(null, body?.string())
+        })
+    }
 
     @Test
-    fun testDataManager() {
-        val html = "<root><div class=\"gallery-item-group lastitemrepeater\">\n" +
-                "    <a href=\"/Picture-Library/Image.aspx?id=7824\"><img src=\"/Images/Thumbnails/1552/155296.jpg\" class=\"picture\"/></a>\n" +
-                "\n" +
-                "    <div class=\"gallery-item-caption\">\n" +
-                "    <p><a href=\"/Picture-Library/Image.aspx?id=7824\">We Know Our Place</a></p>\n" +
-                "    </div>\n" +
-                "</div>\n" +
-                "\n" +
-                "<div class=\"gallery-item-group exitemrepeater\">\n" +
-                "    <a href=\"/Picture-Library/Image.aspx?id=2455\"><img src=\"/Images/Thumbnails/1343/134346.jpg\" class=\"picture\"/></a>\n" +
-                "\n" +
-                "    <div class=\"gallery-item-caption\">\n" +
-                "    <p><a href=\"/Picture-Library/Image.aspx?id=2455\">Aerial Miami Beach</a></p>\n" +
-                "    </div>\n" +
-                "</div></root>"
+    fun testGetty() {
+        NetworkManager.get.body(GettyConfig.LIST_URL, { res, body ->
+            assertEquals(true, res)
 
-        DataProxy.get.rawHtml(html)
-        DataProxy.get.load({ assertEquals(true, it) })
+            val html = body?.string()
+            assertNotEquals(null, html)
+
+            val fpos = html?.indexOf("<!-- REPEATER -->")
+            val lpos = html?.lastIndexOf("<!-- REPEATER ENDS -->")
+
+            assertNotEquals(-1, fpos)
+            assertNotEquals(-1, lpos)
+        })
+    }
+
+    @Test
+    fun testDataProxy() {
+        val appContext = InstrumentationRegistry.getTargetContext()
+
+        NetworkManager.get.body(GettyConfig.LIST_URL, { res, body ->
+            DataProxy.get.run {
+                data = GettyParser()
+                data?.limit(6)
+
+                init(body?.string()!!)
+                load(appContext, { assertEquals(true, it) })
+            }
+        })
     }
 }
