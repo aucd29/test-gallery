@@ -8,7 +8,7 @@ import net.sarangnamu.test_gallery.common.DataProxy
 import net.sarangnamu.test_gallery.common.NetworkManager
 import net.sarangnamu.test_gallery.getty.GettyConfig
 import net.sarangnamu.test_gallery.getty.GettyParser
-import net.sarangnamu.test_gallery.view.GalleryFrgmtBase
+import net.sarangnamu.test_gallery.view.AppFrgmtBase
 import net.sarangnamu.test_gallery.view.main.MainFrgmt
 import org.slf4j.LoggerFactory
 
@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 11.. <p/>
  */
 
-class SplashFrgmt : GalleryFrgmtBase() {
+class SplashFrgmt : AppFrgmtBase() {
     companion object {
         private val log = LoggerFactory.getLogger(SplashFrgmt::class.java)
         private val ANI_DURATION = 500L
@@ -44,7 +44,11 @@ class SplashFrgmt : GalleryFrgmtBase() {
 
         if (AppConfig.DUMY_MODE) {
             // 더미 데이터 적용
-            DataProxy.get.imageList = AppConfig.Dumy.imageList
+            DataProxy.get.run {
+                data = GettyParser()
+                list(AppConfig.Dumy.imageList)
+            }
+
             base.postDelayed({ showMainFragment() }, 1000)
 
             return
@@ -62,7 +66,7 @@ class SplashFrgmt : GalleryFrgmtBase() {
                         load(activity!!, {
                             when (it) {
                                 true -> showMainFragment()
-                                else -> error(R.string.datamanager_unknown_error)
+                                else -> error(R.string.dataproxy_process_error)
                             }
                         })
                     }
@@ -91,6 +95,8 @@ class SplashFrgmt : GalleryFrgmtBase() {
             log.debug("REPLACE MainFrgmt")
         }
 
-        activity?.supportFragmentManager?.replace(R.id.root_layout, MainFrgmt::class.java)
+        activity?.run {
+            supportFragmentManager.replace(R.id.root_layout, MainFrgmt::class.java)
+        } ?: error(R.string.unknown_error)
     }
 }

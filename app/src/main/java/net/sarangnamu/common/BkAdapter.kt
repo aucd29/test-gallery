@@ -61,16 +61,16 @@ import java.lang.reflect.ParameterizedType
  */
 
 abstract class V7Adapter<T, H: RecyclerView.ViewHolder>(
-        protected val mContext: Context,
-        protected @LayoutRes val mId: Int,
-        protected var mDataList: ArrayList<T>) : RecyclerView.Adapter<H>() {
+        protected val context: Context,
+        protected @LayoutRes val id: Int,
+        protected var dataList: ArrayList<T>) : RecyclerView.Adapter<H>() {
 
     var clickListener: ((View, Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): H {
         val klass       = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1] as Class<H>
         val constructor = klass.getDeclaredConstructor(*arrayOf<Class<*>>(View::class.java))
-        val view        = LayoutInflater.from(mContext).inflate(mId, parent,false)
+        val view        = LayoutInflater.from(context).inflate(id, parent,false)
         val viewHolder  = constructor.newInstance(*arrayOf(view))
 
         clickListener?.let { view.setOnClickListener { v -> it(v, viewHolder.layoutPosition) } }
@@ -78,30 +78,39 @@ abstract class V7Adapter<T, H: RecyclerView.ViewHolder>(
         return viewHolder
     }
 
-    override fun getItemCount(): Int = mDataList.size
-    override fun onBindViewHolder(holder: H, position: Int) = bindView(holder, mDataList.get(position))
+    override fun getItemCount(): Int = dataList.size
+    override fun onBindViewHolder(holder: H, position: Int) = bindView(holder, dataList.get(position))
 
     fun invalidate(dataList: ArrayList<T>) {
-        this.mDataList = dataList
+        this.dataList = dataList
         notifyDataSetChanged()
     }
 
     fun invalidate(pos: Int, data: T) {
-        this.mDataList.set(pos, data)
+        this.dataList.set(pos, data)
         notifyItemChanged(pos)
     }
 
     abstract fun bindView(holder: H, data: T)
 }
 
-inline fun RecyclerView.verticalLayout() {
-    layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+inline fun RecyclerView.verticalLayout(): LinearLayoutManager {
+    val manager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+    layoutManager = manager
+
+    return manager
 }
 
-inline fun RecyclerView.horizontalLayout() {
-    layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+inline fun RecyclerView.horizontalLayout(): LinearLayoutManager {
+    val manager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+    layoutManager = manager
+
+    return manager
 }
 
-inline fun RecyclerView.gridLayout(col: Int) {
-    layoutManager = GridLayoutManager(context, col)
+inline fun RecyclerView.gridLayout(col: Int): GridLayoutManager {
+    val manager = GridLayoutManager(context, col)
+    layoutManager = manager
+
+    return manager
 }

@@ -53,10 +53,10 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
         private val log = LoggerFactory.getLogger(GettyParser::class.java)
     }
 
-    val imageList = arrayListOf<GettyImageInfo>()
-    var total = 0
-    var limit = 20
-    var first = 1
+    private var imageList = arrayListOf<GettyImageInfo>()
+    private var total = 0
+    private var limit = 20
+    private var first = 1
 
     override fun parsing() {
         val countExpr = "count(//div[contains(@class, 'gallery-item-group')])"
@@ -144,4 +144,8 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
 
     override fun list(): ArrayList<GettyImageInfo> = imageList
     override fun hasNext(): Boolean = total > (first + limit)
+    override fun total() = total
+    override fun list(list: ArrayList<GettyImageInfo>) {
+        imageList = list
+    }
 }
