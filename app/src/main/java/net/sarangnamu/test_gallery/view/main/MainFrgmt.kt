@@ -45,10 +45,8 @@ class MainFrgmt : AppFrgmtBase() {
                     }
                 }
 
-            adapter = MainAdapter(activity!!
-                        , total
-                        , R.layout.main_grid_row
-                        , list!!)
+            adapter = MainAdapter(activity!! , total , R.layout.main_grid_row , list!!)
+//            adapter.setHasStableIds(true)
         }
     }
 }

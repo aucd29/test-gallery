@@ -82,9 +82,14 @@ abstract class V7Adapter<T, H: RecyclerView.ViewHolder>(
     override fun onBindViewHolder(holder: H, position: Int) = bindView(holder, dataList.get(position))
 
     fun invalidate(dataList: ArrayList<T>) {
+        val start = this.dataList.size
+        val end   = dataList.size
+
         this.dataList = dataList
-        notifyDataSetChanged()
+
+        notifyItemRangeInserted(start, end)
     }
+
 
     fun invalidate(pos: Int, data: T) {
         this.dataList.set(pos, data)

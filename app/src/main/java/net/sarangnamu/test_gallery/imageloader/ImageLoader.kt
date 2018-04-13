@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import android.os.*
 import android.support.v4.graphics.BitmapCompat
 import android.support.v4.util.LruCache
+import android.text.format.Formatter
 import android.widget.ImageView
 import net.sarangnamu.common.BkSystem
 import net.sarangnamu.test_gallery.R
@@ -169,7 +170,7 @@ internal class DiskCache(val context: Context) {
         val cacheSize = Math.max(min, MIN_CACHE_SIZE).toLong()
 
         if (log.isDebugEnabled) {
-            log.debug("DISK CACHE SIZE : $cacheSize")
+            log.debug("DISK CACHE SIZE : ${Formatter.formatFileSize(context, cacheSize)}")
         }
 
         // 결국 최소는 디스크 크기에 최대는 MAX 크기에 영향
@@ -210,13 +211,13 @@ class MemoryCache(val context: Context) {
         val manager   = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val largeHeap = (context.applicationInfo.flags and FLAG_LARGE_HEAP) != 0
         val memClass  = if (largeHeap) manager.largeMemoryClass else manager.memoryClass
-        val cacheSize = (1024L * 1024L * memClass / 7).toInt()
+        val cacheSize = 1024L * 1024L * memClass / 7
 
         if (log.isDebugEnabled) {
-            log.debug("MEM CACHE SIZE : $cacheSize")
+            log.debug("MEM CACHE SIZE : ${Formatter.formatFileSize(context, cacheSize)}")
         }
 
-        return cacheSize
+        return cacheSize.toInt()
     }
 }
 

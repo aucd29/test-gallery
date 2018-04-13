@@ -42,7 +42,7 @@ class GettyConfig {
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-data class GettyImageInfo(val path: String, val caption: String)
+data class GettyImageInfo(val id: Int, val path: String, val caption: String)
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
@@ -129,19 +129,15 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
             last = total
         }
 
-        if (log.isDebugEnabled) {
-            log.debug("SELECT CVT($first, $last)")
-        }
-
         (first..last).forEach {
             val imgPath = string(imgPathExpr.format(it))
             val caption = string(captionExpr.format(it))
 
             if (log.isTraceEnabled) {
-                log.trace("src = $imgPath, caption = $caption")
+                log.trace("SRC = $imgPath, CAPTION = $caption")
             }
 
-            imageList.add(GettyImageInfo(imgPath, caption))
+            imageList.add(GettyImageInfo(it, imgPath, caption))
         }
 
         // 느린데?  ㄷ ㄷ SAX 로 해야 되나?

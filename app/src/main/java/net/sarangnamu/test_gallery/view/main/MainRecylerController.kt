@@ -110,6 +110,14 @@ class MainAdapter(val activity: Activity, val total: Int, @LayoutRes id: Int, da
         }
     }
 
+//    override fun getItemId(position: Int): Long {
+//        if (dataList.size == position) {
+//            return -791212
+//        }
+//
+//        return dataList.get(position).id.toLong()
+//    }
+
     override fun getItemCount(): Int {
         if (dataList.size == total) {
             return dataList.size

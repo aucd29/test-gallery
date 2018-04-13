@@ -1,7 +1,10 @@
 package net.sarangnamu.test_gallery
 
+import android.os.Build
+import android.util.Log
 import com.squareup.leakcanary.LeakCanary
 import net.sarangnamu.common.BkApp
+import org.slf4j.LoggerFactory
 
 /**
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 11.. <p/>
@@ -18,6 +21,18 @@ import net.sarangnamu.common.BkApp
 class MainApp : BkApp() {
     override fun onCreate() {
         super.onCreate()
+
+        val sb = StringBuffer()
+        sb.append("\n")
+        sb.append("=====================\n")
+        sb.append(getString(R.string.app_name)).append("\n")
+        sb.append("=====================\n")
+        sb.append("MODEL        : ").append(Build.MODEL).append("\n")
+        sb.append("SDK          : ").append(Build.VERSION.SDK_INT).append("\n")
+        sb.append("VERSION CODE : ").append(BuildConfig.VERSION_CODE).append("\n")
+        sb.append("VERSION NAME : ").append(BuildConfig.VERSION_NAME).append("\n")
+        sb.append("=====================")
+        Log.i("[BKLOG]", sb.toString())
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
