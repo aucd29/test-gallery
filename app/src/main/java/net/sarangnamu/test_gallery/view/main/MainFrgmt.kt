@@ -6,6 +6,7 @@ import net.sarangnamu.common.gridLayout
 import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.common.AppConfig
 import net.sarangnamu.test_gallery.common.DataProxy
+import net.sarangnamu.test_gallery.imageloader.ImageLoader
 import net.sarangnamu.test_gallery.view.AppFrgmtBase
 import org.slf4j.LoggerFactory
 
@@ -17,6 +18,8 @@ class MainFrgmt : AppFrgmtBase() {
     companion object {
         private val log = LoggerFactory.getLogger(MainFrgmt::class.java)
     }
+
+    var loader: ImageLoader? = null
 
     override fun layoutId() = R.layout.main_layout
 
@@ -45,8 +48,15 @@ class MainFrgmt : AppFrgmtBase() {
                     }
                 }
 
-            adapter = MainAdapter(activity!! , total , R.layout.main_grid_row , list!!)
-//            adapter.setHasStableIds(true)
+            loader  = ImageLoader(activity!!, R.drawable.ic_rotate_right_gray_24dp)
+            adapter = MainAdapter(MainAdapterParams(activity!!, total, loader!!),
+                                    R.layout.main_grid_row , list!!)
         }
+    }
+
+    override fun onDestroy() {
+        loader?.destroy()
+
+        super.onDestroy()
     }
 }

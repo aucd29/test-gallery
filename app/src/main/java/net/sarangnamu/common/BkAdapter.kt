@@ -81,7 +81,14 @@ abstract class V7Adapter<T, H: RecyclerView.ViewHolder>(
     override fun getItemCount(): Int = dataList.size
     override fun onBindViewHolder(holder: H, position: Int) = bindView(holder, dataList.get(position))
 
-    fun invalidate(dataList: ArrayList<T>) {
+    fun invalidate(dataList: ArrayList<T>, all: Boolean = false) {
+        if (all) {
+            this.dataList = dataList
+            notifyDataSetChanged()
+
+            return
+        }
+
         val start = this.dataList.size
         val end   = dataList.size
 

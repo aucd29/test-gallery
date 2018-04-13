@@ -60,8 +60,14 @@ class MainFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-class MainAdapter(val activity: Activity, val total: Int, @LayoutRes id: Int, dataList: ArrayList<GettyImageInfo>)
-    : V7Adapter<GettyImageInfo, RecyclerView.ViewHolder>(activity, id, dataList)
+data class MainAdapterParams(val activity: Activity,
+                             val total: Int,
+                             val loader: ImageLoader)
+
+
+class MainAdapter(val params: MainAdapterParams,
+                  @LayoutRes id: Int, dataList: ArrayList<GettyImageInfo>)
+    : V7Adapter<GettyImageInfo, RecyclerView.ViewHolder>(params.activity, id, dataList)
     , View.OnClickListener {
 
     companion object {
@@ -70,8 +76,6 @@ class MainAdapter(val activity: Activity, val total: Int, @LayoutRes id: Int, da
         const val T_DEFAULT = 0
         const val T_FOOTER  = 1
     }
-
-    val loader = ImageLoader(activity, R.drawable.ic_rotate_right_gray_24dp)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -98,8 +102,8 @@ class MainAdapter(val activity: Activity, val total: Int, @LayoutRes id: Int, da
                 }
                 
                 holder.caption.text = data.caption
-                loader.load(ImageLoaderParams().apply {
-                    this.context = activity
+                params.loader.load(ImageLoaderParams().apply {
+                    this.context = params.activity
                     this.url     = GettyConfig.BASE_URL + data.path
                     this.target  = holder.image
                 })
@@ -121,7 +125,7 @@ class MainAdapter(val activity: Activity, val total: Int, @LayoutRes id: Int, da
 //    }
 
     override fun getItemCount(): Int {
-        if (dataList.size == total) {
+        if (dataList.size == params.total) {
             return dataList.size
         }
 
@@ -138,7 +142,7 @@ class MainAdapter(val activity: Activity, val total: Int, @LayoutRes id: Int, da
     ////////////////////////////////////////////////////////////////////////////////////
 
     override fun onClick(v: View) {
-        if (!activity.isNetworkConnected()) {
+        if (!params.activity.isNetworkConnected()) {
             log.error("ERROR: NETWORK DISCONNECT")
 
             alert(R.string.network_occur_error)
@@ -150,7 +154,7 @@ class MainAdapter(val activity: Activity, val total: Int, @LayoutRes id: Int, da
         // 다음 페이지 호출
         holder.showProgress()
 
-        DataProxy.get.load(activity, {
+        DataProxy.get.load(params.activity, {
             if (it) {
                 holder.showMore()
                 DataProxy.get.list()?.run { invalidate(this) }
@@ -162,6 +166,6 @@ class MainAdapter(val activity: Activity, val total: Int, @LayoutRes id: Int, da
     }
 
     private fun alert(@StringRes resid: Int) {
-        activity.dialog(DialogParam(resid, R.string.title_error)).show()
+        params.activity.dialog(DialogParam(resid, R.string.title_error)).show()
     }
 }
