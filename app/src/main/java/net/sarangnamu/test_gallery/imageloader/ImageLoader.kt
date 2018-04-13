@@ -7,6 +7,8 @@ import android.content.pm.ApplicationInfo.FLAG_LARGE_HEAP
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.*
+import android.support.annotation.DrawableRes
+import android.support.annotation.NonNull
 import android.support.v4.graphics.BitmapCompat
 import android.support.v4.util.LruCache
 import android.text.format.Formatter
@@ -25,7 +27,7 @@ import java.io.IOException
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 12.. <p/>
  */
 
-class ImageLoader(val activity: Activity) {
+class ImageLoader(val activity: Activity, @DrawableRes val placeholderId: Int) {
     companion object {
         private val log = LoggerFactory.getLogger(ImageLoader::class.java)
         private val K_LOAD = 1
@@ -57,7 +59,9 @@ class ImageLoader(val activity: Activity) {
 
     fun load(params: ImageLoaderParams) {
         // default image
-        params.target.setImageResource(R.drawable.ic_rotate_right_gray_24dp)
+        if (placeholderId != 0) {
+            params.target.setImageResource(placeholderId)
+        }
 
         sendMessage(K_LOAD, params)
     }
@@ -141,7 +145,6 @@ class ImageLoaderParams {
     lateinit var url : String
     lateinit var target: ImageView
 
-    var bitmapCfg: Bitmap.Config = Bitmap.Config.RGB_565
     val listener: ((Boolean, Bitmap?) -> Unit?)? = null
 }
 

@@ -18,7 +18,7 @@ abstract class AppFrgmtBase : FrgmtBase() {
                 title    = string(R.string.title_error)
                 message  = string(msgId)
                 positive = { finishAffinity() }
-            })
+            }).show()
         }
     }
 }

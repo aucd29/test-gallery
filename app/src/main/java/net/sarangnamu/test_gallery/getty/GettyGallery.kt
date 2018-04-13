@@ -1,5 +1,6 @@
 package net.sarangnamu.test_gallery.getty
 
+import net.sarangnamu.common.TimeLog
 import net.sarangnamu.common.XPathBase
 import net.sarangnamu.test_gallery.common.AppConfig
 import net.sarangnamu.test_gallery.common.AppConfig.Companion.GRID_Y_SIZE
@@ -61,9 +62,9 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
     private var first = 1
 
     override fun parsing() {
-        val countExpr = "count(//div[contains(@class, 'gallery-item-group')])"
+        val expr = "count(//div[contains(@class, 'gallery-item-group')])"
 
-        total = int(countExpr)
+        total = int(expr)
 
         if (log.isDebugEnabled) {
             log.debug("IMAGE COUNT : $total")
@@ -111,10 +112,7 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
      * dom + xpath 형태로 원하는 데이터를 call
      */
     private fun select(startIndex: Int, endIndex: Int) {
-        if (log.isDebugEnabled) {
-            log.debug("SELECT ($startIndex, $endIndex)")
-        }
-
+        val timelog     = TimeLog("GETTRY SELECT ($startIndex, $endIndex)")
         val imgPathExpr = "//div[contains(@class, 'gallery-item-group')][%d]/a/img/@src"
         val captionExpr = "//div[contains(@class, 'gallery-item-group')][%d]/div/p/a/text()"
 
@@ -140,10 +138,7 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
             imageList.add(GettyImageInfo(it, imgPath, caption))
         }
 
-        // 느린데?  ㄷ ㄷ SAX 로 해야 되나?
-        if (log.isDebugEnabled) {
-            log.debug("DONE")
-        }
+        timelog.finish()
     }
 
     override fun list(): ArrayList<GettyImageInfo> = imageList

@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.main_grid_row_more.view.*
 import net.sarangnamu.common.DialogParam
 import net.sarangnamu.common.V7Adapter
 import net.sarangnamu.common.dialog
+import net.sarangnamu.common.isNetworkConnected
 import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.common.DataProxy
 import net.sarangnamu.test_gallery.getty.GettyConfig
@@ -20,6 +21,7 @@ import net.sarangnamu.test_gallery.imageloader.ImageLoader
 import net.sarangnamu.test_gallery.imageloader.ImageLoaderParams
 import net.sarangnamu.test_gallery.view.main.MainAdapter.Companion.T_DEFAULT
 import net.sarangnamu.test_gallery.view.main.MainAdapter.Companion.T_FOOTER
+import net.sarangnamu.test_gallery.view.splash.SplashFrgmt
 import org.slf4j.LoggerFactory
 
 /**
@@ -69,7 +71,7 @@ class MainAdapter(val activity: Activity, val total: Int, @LayoutRes id: Int, da
         const val T_FOOTER  = 1
     }
 
-    val loader = ImageLoader(activity)
+    val loader = ImageLoader(activity, R.drawable.ic_rotate_right_gray_24dp)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -136,6 +138,13 @@ class MainAdapter(val activity: Activity, val total: Int, @LayoutRes id: Int, da
     ////////////////////////////////////////////////////////////////////////////////////
 
     override fun onClick(v: View) {
+        if (!activity.isNetworkConnected()) {
+            log.error("ERROR: NETWORK DISCONNECT")
+
+            alert(R.string.network_occur_error)
+            return
+        }
+
         val holder = v.tag as MainFooterViewHolder
 
         // 다음 페이지 호출
@@ -153,6 +162,6 @@ class MainAdapter(val activity: Activity, val total: Int, @LayoutRes id: Int, da
     }
 
     private fun alert(@StringRes resid: Int) {
-        activity.dialog(DialogParam(resid, R.string.title_error))
+        activity.dialog(DialogParam(resid, R.string.title_error)).show()
     }
 }
