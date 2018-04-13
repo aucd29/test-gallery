@@ -9,12 +9,12 @@ import org.slf4j.LoggerFactory
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 11.. <p/>
  *
  */
-class DataManager private constructor() {
-    private object Holder { val INSTANCE = DataManager() }
+class DataProxy private constructor() {
+    private object Holder { val INSTANCE = DataProxy() }
 
     companion object {
-        private val log = LoggerFactory.getLogger(DataManager::class.java)
-        val  get: DataManager by lazy { Holder.INSTANCE }
+        private val log = LoggerFactory.getLogger(DataProxy::class.java)
+        val  get: DataProxy by lazy { Holder.INSTANCE }
     }
 
     var data: IData<GettyImageInfo>? = null
@@ -22,6 +22,14 @@ class DataManager private constructor() {
 
     fun init(html: String) {
         data?.init(html)
+    }
+
+    fun hasNext(): Boolean {
+        return data?.hasNext() ?: false
+    }
+
+    fun data(): IData<GettyImageInfo>? {
+        return data
     }
 
     fun load(activity: Activity, listener: (Boolean) -> (Unit)) {

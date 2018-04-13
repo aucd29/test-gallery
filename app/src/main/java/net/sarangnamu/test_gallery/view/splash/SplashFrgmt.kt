@@ -4,7 +4,7 @@ import kotlinx.android.synthetic.main.splash_layout.view.*
 import net.sarangnamu.common.*
 import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.common.AppConfig
-import net.sarangnamu.test_gallery.common.DataManager
+import net.sarangnamu.test_gallery.common.DataProxy
 import net.sarangnamu.test_gallery.common.NetworkManager
 import net.sarangnamu.test_gallery.getty.GettyConfig
 import net.sarangnamu.test_gallery.getty.GettyParser
@@ -44,7 +44,7 @@ class SplashFrgmt : GalleryFrgmtBase() {
 
         if (AppConfig.DUMY_MODE) {
             // 더미 데이터 적용
-            DataManager.get.imageList = AppConfig.Dumy.imageList
+            DataProxy.get.imageList = AppConfig.Dumy.imageList
             base.postDelayed({ showMainFragment() }, 1000)
 
             return
@@ -55,7 +55,7 @@ class SplashFrgmt : GalleryFrgmtBase() {
                 error(R.string.network_occur_error)
             } else {
                 body?.run {
-                    DataManager.get.run {
+                    DataProxy.get.run {
                         data = GettyParser()
 
                         init(string())

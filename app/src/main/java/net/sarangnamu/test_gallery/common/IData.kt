@@ -10,4 +10,5 @@ interface IData<T> {
     fun next(): Boolean
     fun limit(limit: Int)
     fun list(): ArrayList<T>
+    fun hasNext(): Boolean
 }

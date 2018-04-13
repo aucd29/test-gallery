@@ -2,8 +2,7 @@ package net.sarangnamu.test_gallery
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import net.sarangnamu.test_gallery.common.DataManager
-import net.sarangnamu.test_gallery.common.NetworkManager
+import net.sarangnamu.test_gallery.common.DataProxy
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,7 +46,7 @@ class ExampleInstrumentedTest {
                 "    </div>\n" +
                 "</div></root>"
 
-        DataManager.get.rawHtml(html)
-        DataManager.get.load({ assertEquals(true, it) })
+        DataProxy.get.rawHtml(html)
+        DataProxy.get.load({ assertEquals(true, it) })
     }
 }

@@ -4,7 +4,7 @@ import kotlinx.android.synthetic.main.main_layout.view.*
 import net.sarangnamu.common.gridLayout
 import net.sarangnamu.test_gallery.R
 import net.sarangnamu.test_gallery.common.AppConfig
-import net.sarangnamu.test_gallery.common.DataManager
+import net.sarangnamu.test_gallery.common.DataProxy
 import net.sarangnamu.test_gallery.view.GalleryFrgmtBase
 import org.slf4j.LoggerFactory
 
@@ -22,7 +22,7 @@ class MainFrgmt : GalleryFrgmtBase() {
     override fun initLayout() {
         if (log.isDebugEnabled) {
             log.debug("INIT RECYCLER VIEW")
-            log.debug("DATA SIZE : ${DataManager.get.imageList.size}")
+            log.debug("DATA SIZE : ${DataProxy.get.imageList.size}")
         }
 
         base.main_recycler.run {
@@ -30,7 +30,7 @@ class MainFrgmt : GalleryFrgmtBase() {
 
             adapter = MainAdapter(activity!!
                         , R.layout.main_grid_row
-                        , DataManager.get.imageList)
+                        , DataProxy.get.imageList)
         }
     }
 }

@@ -1,7 +1,6 @@
 package net.sarangnamu.test_gallery.getty
 
 import net.sarangnamu.common.XPathBase
-import net.sarangnamu.test_gallery.common.DataManager
 import net.sarangnamu.test_gallery.common.IData
 import org.slf4j.LoggerFactory
 
@@ -56,7 +55,7 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
 
     val imageList = arrayListOf<GettyImageInfo>()
     var total = 0
-    var limit = 40
+    var limit = 20
     var first = 1
 
     override fun parsing() {
@@ -137,11 +136,12 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
             imageList.add(GettyImageInfo(imgPath, caption))
         }
 
-        // 엄청 느린데?  ㄷ ㄷ SAX 로 해야 되나?
+        // 느린데?  ㄷ ㄷ SAX 로 해야 되나?
         if (log.isDebugEnabled) {
             log.debug("DONE")
         }
     }
 
     override fun list(): ArrayList<GettyImageInfo> = imageList
+    override fun hasNext(): Boolean = total > (first + limit)
 }
