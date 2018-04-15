@@ -43,10 +43,11 @@ class SplashFrgmt : AppFrgmtBase() {
         }
 
         if (AppConfig.DUMY_MODE) {
-            // 더미 데이터 적용
+            // 더미 모드시에는 미리 정의해둔 데이터 적용
             DataProxy.get.run {
                 data = GettyParser()
                 data?.limit(AppConfig.GRID_X_SIZE * AppConfig.GRID_Y_SIZE)
+                total(AppConfig.Dumy.imageList.size)
                 list(AppConfig.Dumy.imageList)
             }
 
@@ -55,6 +56,7 @@ class SplashFrgmt : AppFrgmtBase() {
             return
         }
 
+        // 서버에서 html 을 읽어다가 data proxy 에 전달
         Network.get.body(GettyConfig.LIST_URL, { res, body ->
             if (!res) {
                 error(R.string.network_occur_error)
@@ -83,7 +85,9 @@ class SplashFrgmt : AppFrgmtBase() {
         }
 
         animateIcon(ANI_DISTANCE, Runnable {
-            animateIcon(ANI_DISTANCE * -1f)
+            animateIcon(ANI_DISTANCE * -1f * 2, Runnable {
+                animateIcon(ANI_DISTANCE)
+            })
         })
     }
 

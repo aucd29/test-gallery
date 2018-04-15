@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory
     4. 화면 회전이 가능해야 하며, 화면 회전 시 페이지 http 중복 요청하지 않도록 함
  */
 class MainApp : BkApp() {
+    private val log = LoggerFactory.getLogger(MainApp::class.java)
+
     override fun onCreate() {
         super.onCreate()
 

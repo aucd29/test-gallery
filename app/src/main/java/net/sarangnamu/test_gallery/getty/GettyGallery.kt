@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory
 
 /**
  * Created by <a href="mailto:aucd29@gmail.com">Burke Choi</a> on 2018. 4. 11.. <p/>
- *
- * 헐 -_- API 문서가 안열린다.
  */
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -21,17 +19,6 @@ import org.slf4j.LoggerFactory
 
 class GettyConfig {
     companion object {
-        // 멋 모르고 oauth 로 하다가 문제 다시 보고 http 로 변경
-
-//        val api_key             = "pvb39rtvpuwhbdgm5s6mfz58"
-//        val api_secret          = "HFpbm3f8pM63pcaX8fGxZuEnN7mpHXMPgasRTF47N9kjZ"
-//
-//        val AUTH                = "https://api.gettyimages.com/oauth2/token"
-//        val GRANT_TYPE          = "grant_type"
-//        val CLIENT_CREDENTIALS  = "client_credentials"
-//        val CLIENT_ID           = "client_id"
-//        val CLIENT_SECRET       = "client_secret"
-
         const val BASE_URL = "http://www.gettyimagesgallery.com"
         const val LIST_URL = "${BASE_URL}/collections/archive/slim-aarons.aspx"
     }
@@ -59,7 +46,7 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
     private var imageList = arrayListOf<GettyImageInfo>()
     private var total = 0
     private var limit = 3
-    private var first = 1
+    private var first = 1   // xpath 는 1부터 시작해야 함
 
     override fun parsing() {
         val expr = "count(//div[contains(@class, 'gallery-item-group')])"
@@ -112,7 +99,7 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
      * dom + xpath 형태로 원하는 데이터를 call
      */
     private fun select(startIndex: Int, endIndex: Int) {
-        val timelog     = TimeLog("GETTRY SELECT ($startIndex, $endIndex)")
+        val timelog     = TimeLog("GETTY SELECT ($startIndex, $endIndex)")
         val imgPathExpr = "//div[contains(@class, 'gallery-item-group')][%d]/a/img/@src"
         val captionExpr = "//div[contains(@class, 'gallery-item-group')][%d]/div/p/a/text()"
 
@@ -144,6 +131,9 @@ class GettyParser : XPathBase(), IData<GettyImageInfo> {
     override fun list(): ArrayList<GettyImageInfo> = imageList
     override fun hasNext(): Boolean = total > (first + limit)
     override fun total() = total
+    override fun total(total: Int) {
+        this.total = total
+    }
     override fun list(list: ArrayList<GettyImageInfo>) {
         imageList = list
     }

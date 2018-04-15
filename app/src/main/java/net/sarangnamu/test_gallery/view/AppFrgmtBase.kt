@@ -12,6 +12,9 @@ import net.sarangnamu.test_gallery.R
  */
 
 abstract class AppFrgmtBase : FrgmtBase() {
+    /**
+     * alert dialog (error type)
+     */
     protected fun error(@StringRes msgId: Int) {
         activity?.run {
             dialog(DialogParam().apply {

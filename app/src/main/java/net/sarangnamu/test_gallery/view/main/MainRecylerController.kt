@@ -56,7 +56,7 @@ class MainFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
-// ADAPTER
+// MainAdapterParams
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -64,6 +64,11 @@ data class MainAdapterParams(val activity: Activity,
                              val total: Int,
                              val loader: ImageLoader)
 
+////////////////////////////////////////////////////////////////////////////////////
+//
+// ADAPTER
+//
+////////////////////////////////////////////////////////////////////////////////////
 
 class MainAdapter(val params: MainAdapterParams,
                   @LayoutRes id: Int, dataList: ArrayList<GettyImageInfo>)
@@ -115,14 +120,6 @@ class MainAdapter(val params: MainAdapterParams,
             }
         }
     }
-
-//    override fun getItemId(position: Int): Long {
-//        if (dataList.size == position) {
-//            return -791212
-//        }
-//
-//        return dataList.get(position).id.toLong()
-//    }
 
     override fun getItemCount(): Int {
         if (dataList.size == params.total) {

@@ -35,6 +35,10 @@ class DataProxy private constructor() {
         return data?.total() ?: 0
     }
 
+    fun total(total: Int) {
+        data?.total(total)
+    }
+
     fun list(): ArrayList<GettyImageInfo>? {
         return data?.list()
     }

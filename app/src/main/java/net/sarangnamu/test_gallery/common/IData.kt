@@ -12,5 +12,6 @@ interface IData<T> {
     fun list(): ArrayList<T>
     fun hasNext(): Boolean
     fun total(): Int
+    fun total(total: Int)
     fun list(list: ArrayList<T>)
 }

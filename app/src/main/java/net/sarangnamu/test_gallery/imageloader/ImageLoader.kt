@@ -15,6 +15,13 @@ import android.widget.ImageView
 import net.sarangnamu.common.BkSystem
 import net.sarangnamu.test_gallery.common.AppConfig
 import okhttp3.*
+import okhttp3.Cache.key
+import okhttp3.internal.Util
+import okhttp3.internal.cache.CacheRequest
+import okhttp3.internal.cache.DiskLruCache
+import okhttp3.internal.http.HttpHeaders
+import okhttp3.internal.http.HttpMethod
+import okhttp3.internal.io.FileSystem
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.Okio
 import okio.Source
@@ -161,7 +168,7 @@ class ImageLoaderParams {
     val listener: ((Boolean, Bitmap?) -> Unit?)? = null
 }
 
-internal class DiskCache(val context: Context) {
+class DiskCache(val context: Context){
     companion object {
         private val log = LoggerFactory.getLogger(DiskCache::class.java)
 
@@ -170,7 +177,10 @@ internal class DiskCache(val context: Context) {
         const val MAX_CACHE_SIZE  = MIN_CACHE_SIZE * 20f    // 100MB
     }
 
-    val diskCacheFp = cacheDir()
+    val diskCacheFp  = cacheDir()
+//    val cacheSize    = cacheSize()
+//    val diskLruCache = DiskLruCache.create(FileSystem.SYSTEM, diskCacheFp,
+//            201804, 2, cacheSize)
 
     fun cacheSize(): Long {
         // 디스크 양에서
@@ -203,6 +213,7 @@ internal class DiskCache(val context: Context) {
 class MemoryCache(val context: Context) {
     companion object {
         private val log = LoggerFactory.getLogger(MemoryCache::class.java)
+        private val MEM_CACHE_RATIO = 5 // 전체 메몰에서 1/5만큼 캐시 할당
     }
 
     val cache = ImageLoaderLruCache(cacheSize())
@@ -224,7 +235,7 @@ class MemoryCache(val context: Context) {
         val manager   = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val largeHeap = (context.applicationInfo.flags and FLAG_LARGE_HEAP) != 0
         val memClass  = if (largeHeap) manager.largeMemoryClass else manager.memoryClass
-        val cacheSize = 1024L * 1024L * memClass / 7
+        val cacheSize = 1024L * 1024L * memClass / MEM_CACHE_RATIO
 
         if (log.isDebugEnabled) {
             log.debug("MEM CACHE SIZE : ${Formatter.formatFileSize(context, cacheSize)}")

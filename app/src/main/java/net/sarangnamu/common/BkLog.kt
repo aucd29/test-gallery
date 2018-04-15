@@ -14,15 +14,15 @@ class TimeLog(val message: String) {
     private var startTime = System.currentTimeMillis()
 
     init {
-        if (log.isDebugEnabled) {
-            log.debug("[TIMELOG] $message START")
+        if (log.isInfoEnabled) {
+            log.info("[TIMELOG] $message START")
         }
     }
 
     fun finish() {
-        if (log.isDebugEnabled) {
+        if (log.isInfoEnabled) {
             val time = System.currentTimeMillis() - startTime
-            log.debug("[TIMELOG] $message FINISH ($time ms)")
+            log.info("[TIMELOG] $message FINISH ($time ms)")
         }
     }
 }
