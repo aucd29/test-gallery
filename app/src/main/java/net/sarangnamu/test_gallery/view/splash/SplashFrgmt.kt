@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory
 class SplashFrgmt : AppFrgmtBase() {
     companion object {
         private val log = LoggerFactory.getLogger(SplashFrgmt::class.java)
+
         private val ANI_DURATION = 500L
         private val ANI_DISTANCE = 10f.dpToPixel()
     }
@@ -47,6 +48,7 @@ class SplashFrgmt : AppFrgmtBase() {
             DataProxy.get.run {
                 data = GettyParser()
                 data?.limit(AppConfig.GRID_X_SIZE * AppConfig.GRID_Y_SIZE)
+
                 total(AppConfig.Dumy.imageList.size)
                 list(AppConfig.Dumy.imageList)
             }

@@ -75,6 +75,10 @@ class ImageLoader(val activity: Activity, @DrawableRes val placeholderId: Int) {
     }
 
     fun destroy() {
+        if (log.isDebugEnabled) {
+            log.debug("FREE HANDLER")
+        }
+
         // https://stackoverflow.com/questions/5883635/how-to-remove-all-callbacks-from-a-handler
         handler.removeCallbacksAndMessages(null)
     }

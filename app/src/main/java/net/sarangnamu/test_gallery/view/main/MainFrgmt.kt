@@ -1,6 +1,7 @@
 package net.sarangnamu.test_gallery.view.main
 
 import android.support.v7.widget.GridLayoutManager
+import android.util.Config.LOGD
 import kotlinx.android.synthetic.main.main_layout.view.*
 import net.sarangnamu.common.gridLayout
 import net.sarangnamu.test_gallery.R
@@ -55,8 +56,8 @@ class MainFrgmt : AppFrgmtBase() {
     }
 
     override fun onDestroy() {
-        if (log.isTraceEnabled()) {
-            log.trace("DESTROY")
+        if (log.isDebugEnabled) {
+            log.debug("DESTROY")
         }
 
         loader?.destroy()

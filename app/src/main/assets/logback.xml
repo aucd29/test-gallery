@@ -3,7 +3,7 @@
         <tagEncoder><pattern>[BKLOG]%class{0}:%L %M</pattern></tagEncoder>
         <encoder><pattern>%msg%n</pattern></encoder>
     </appender>
-    <root level="debug">
+    <root level="error"><!-- RELEASE 용 -->
         <!-- <root level="ERROR|TRACE"> -->
         <appender-ref ref="logcat"/>
     </root>

@@ -21,4 +21,5 @@
 
     <!-- MAIN FRAGMENT -->
     <string name="main_grid_row_more">더 보기</string>
+    <string name="main_network_occur_error">네트워크에 문제가 있습니다.\n네트워크 확인 후 다시 시도하세요</string>
 </resources>

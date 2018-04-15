@@ -17,11 +17,8 @@ class MainActivity : AppCompatActivity() {
     private var appTerminator: AppTerminator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (log.isTraceEnabled()) {
-            log.trace("START APP")
-        }
-
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         init()
 

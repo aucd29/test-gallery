@@ -19,9 +19,6 @@ import net.sarangnamu.test_gallery.getty.GettyConfig
 import net.sarangnamu.test_gallery.getty.GettyImageInfo
 import net.sarangnamu.test_gallery.imageloader.ImageLoader
 import net.sarangnamu.test_gallery.imageloader.ImageLoaderParams
-import net.sarangnamu.test_gallery.view.main.MainAdapter.Companion.T_DEFAULT
-import net.sarangnamu.test_gallery.view.main.MainAdapter.Companion.T_FOOTER
-import net.sarangnamu.test_gallery.view.splash.SplashFrgmt
 import org.slf4j.LoggerFactory
 
 /**
@@ -43,7 +40,7 @@ class MainFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val more     = itemView.main_more
     val progress = itemView.main_progress
 
-    fun showMore() {
+    fun showMoreButton() {
         more.visibility     = View.VISIBLE
         progress.visibility = View.INVISIBLE
     }
@@ -142,7 +139,7 @@ class MainAdapter(val params: MainAdapterParams,
         if (!params.activity.isNetworkConnected()) {
             log.error("ERROR: NETWORK DISCONNECT")
 
-            alert(R.string.network_occur_error)
+            alert(R.string.main_network_occur_error)
             return
         }
 
@@ -153,7 +150,7 @@ class MainAdapter(val params: MainAdapterParams,
 
         DataProxy.get.load(params.activity, {
             if (it) {
-                holder.showMore()
+                holder.showMoreButton()
                 DataProxy.get.list()?.run { invalidate(this) }
                         ?: alert(R.string.unknown_error)
             } else {
